@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react';
-import { type Data, type Errors } from '../types';
+import { type DataRegister, type Errors } from '../types';
 
 interface FormHook {
-  data: Data;
+  data: DataRegister;
   errors: Errors;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validObjectData: () => void;
 }
 
 export const useFormRegister = (): FormHook => {
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<DataRegister>({
     fullName: '',
     user: '',
     email: '',
@@ -43,7 +43,7 @@ export const useFormRegister = (): FormHook => {
     for (const key in data as object) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [key]: validInput(key, data[key as keyof Data]),
+        [key]: validInput(key, data[key as keyof DataRegister]),
       }));
     }
 

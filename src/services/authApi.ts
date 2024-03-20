@@ -1,9 +1,9 @@
-import { type AuthAPIRegister, type Data } from '../types';
+import { type AuthAPIRegister, type DataRegister } from '../types';
 
 const API = 'http://localhost:3000/api/';
 
 export const authRegister = async (
-  userData: Data,
+  userData: DataRegister,
 ): Promise<AuthAPIRegister> => {
   const respones = await fetch(`${API}auth/register`, {
     method: 'POST',

@@ -7,11 +7,15 @@ export interface Errors {
   passwordConfirm?: string | undefined;
 }
 
-export interface Data {
+export interface DataRegister {
   fullName: string;
   user: string;
   email: string;
   password: string;
+}
+export interface DataLogin {
+  user: string;
+  email: string;
 }
 
 export interface InputFormProps {

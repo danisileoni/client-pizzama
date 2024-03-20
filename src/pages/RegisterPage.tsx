@@ -1,34 +1,19 @@
-import { Link } from 'react-router-dom';
-import { InputForm } from '../components/InputForm';
+import { Link, useNavigate } from 'react-router-dom';
+import { InputForm } from '../components/InputForm.tsx';
 import { useFormRegister } from '../hooks/useFormRegister.ts';
-import { useAuth } from '../context/AuthContext.tsx';
-import { useEffect, useState } from 'react';
-import { type ErrorMessage, type ErrorApi } from '../types';
+import { useAuth } from '../hooks/useAuth.ts';
+import { useEffect } from 'react';
 
-export const RegisterAuth = (): JSX.Element => {
+export const RegisterPage = (): JSX.Element => {
   const { data, errors, handleChange, validObjectData } = useFormRegister();
-  const [errorApi, setErrorApi] = useState<ErrorApi>();
-  const [errorMessage, setErrorMessage] = useState<ErrorMessage>();
-  const { register } = useAuth();
+  const { register, errorMessage, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const emailOrUser = errorApi?.message?.split(/[ "\/\{\}:\\]+/);
-    const errorType = emailOrUser?.find(
-      (error) => error === 'email' || error === 'user',
-    );
-
-    if (errorType === 'user') {
-      setErrorMessage({ message: 'existing user' });
-    } else if (errorType === 'email') {
-      setErrorMessage({ message: 'existing email' });
+    if (isAuthenticated) {
+      navigate('/plataform');
     }
-
-    if (errorType != null) {
-      setTimeout(() => {
-        setErrorMessage({ message: undefined });
-      }, 2000);
-    }
-  }, [errorApi]);
+  }, [isAuthenticated]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -36,13 +21,7 @@ export const RegisterAuth = (): JSX.Element => {
     validObjectData();
 
     if (Object.values(errors).every((error) => error === undefined)) {
-      register(data).catch((error) => {
-        setErrorApi({
-          message: error.message,
-          statusCode: error.statusCode,
-          error: error.error,
-        });
-      });
+      register(data).catch((error) => error);
     }
   };
 
