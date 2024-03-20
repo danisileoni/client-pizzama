@@ -28,5 +28,8 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
+    'no-useless-return': 'off',
+    '@typescript-eslint/consistent-type-definitions': 'off',
+    'no-useless-escape': 'off',
   },
 };
