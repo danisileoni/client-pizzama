@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
 import {
+  type DataLogin,
   type AuthAPIRegister,
   type DataRegister,
   type ErrorApi,
@@ -8,10 +9,12 @@ import {
 
 type AuthContextProps = {
   register: (user: DataRegister) => Promise<void>;
+  login: (user: DataLogin) => Promise<void>;
   user: AuthAPIRegister | undefined;
   errorApi: ErrorApi | undefined;
   errorMessage: ErrorMessage | undefined;
   isAuthenticated: boolean;
+  isLoading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextProps>(

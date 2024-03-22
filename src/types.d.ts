@@ -1,12 +1,3 @@
-export interface Errors {
-  fullName?: string | undefined;
-  user?: string | undefined;
-  email?: string | undefined;
-  password?: string | undefined;
-  password2?: string | undefined;
-  passwordConfirm?: string | undefined;
-}
-
 export interface DataRegister {
   fullName: string;
   user: string;
@@ -15,7 +6,7 @@ export interface DataRegister {
 }
 export interface DataLogin {
   user: string;
-  email: string;
+  password: string;
 }
 
 export interface InputFormProps {
@@ -28,13 +19,32 @@ export interface InputFormProps {
   name: string;
 }
 
+// Errors
+export interface Errors {
+  fullName?: string | undefined;
+  user?: string | undefined;
+  email?: string | undefined;
+  password?: string | undefined;
+  password2?: string | undefined;
+  passwordConfirm?: string | undefined;
+}
 export interface ErrorApi {
   message?: string;
   error?: string;
   statusCode?: number;
 }
-export interface AuthAPIRegister {
+
+export interface ErrorMessage {
+  message?: string;
+}
+
+// Fetchs return Data
+export interface AuthAPIRegister extends StateUserType {
   userObject: AuthRegister;
+}
+
+interface StateTypeUser {
+  userObject: UserObject;
 }
 
 export interface AuthRegister {
@@ -43,13 +53,20 @@ export interface AuthRegister {
   email: string;
   isActive: boolean;
   roles: string[];
-  assignedProjects: any[];
-  assignedTasks: any[];
+  assignedProjects: string[];
+  assignedTasks: string[];
   _id: string;
   __v: number;
-  token: string;
+}
+export interface AuthAPILogin extends StateUserType {
+  user?: string;
+  id?: string;
 }
 
-export interface ErrorMessage {
-  message?: string;
+type StateUserType = AuthAPIRegister | AuthAPILogin;
+
+export interface VerificationToken {
+  id?: string;
+  user?: string;
+  email?: string;
 }

@@ -5,6 +5,7 @@ import { NotFound } from './pages/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { LoginPage } from './pages/LoginPage';
 import { PlataformPage } from './pages/PlataformPage';
+import { ProtectedRoute } from './ProtectedRoute';
 
 function App(): JSX.Element {
   return (
@@ -14,7 +15,10 @@ function App(): JSX.Element {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/plataform" element={<PlataformPage />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/plataform" element={<PlataformPage />} />
+          </Route>
 
           <Route path="*" element={<NotFound />} />
         </Routes>
