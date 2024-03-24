@@ -9,6 +9,13 @@ export interface DataLogin {
   password: string;
 }
 
+// Reducers
+interface DataManagmentReducer {
+  loading: boolean;
+  data: ProjectApi[] | undefined;
+  error: string | undefined;
+}
+
 export interface InputFormProps {
   value?: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -69,4 +76,17 @@ export interface VerificationToken {
   id?: string;
   user?: string;
   email?: string;
+}
+
+export interface ProjectApi {
+  _id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  isActive: boolean;
+  assignedUsers: any[];
+  assignedTasks: any[];
+  slug: string;
+  __v: number;
 }

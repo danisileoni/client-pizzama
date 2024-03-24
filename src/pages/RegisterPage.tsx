@@ -11,7 +11,7 @@ export const RegisterPage = (): JSX.Element => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/plataform');
+      navigate('/platform');
     }
   }, [isAuthenticated]);
 

@@ -8,6 +8,7 @@ import {
 } from '../types.d';
 import {
   authLogin,
+  authRefreshToken,
   authRegister,
   authVerifyRequest,
 } from '../services/authApi';
@@ -69,8 +70,12 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         setUser(null);
         return;
       }
+
       try {
         const res = await authVerifyRequest();
+        setIsLoading(false);
+        setIsAuthenticated(true);
+        setUser(res);
         setIsLoading(false);
         setIsAuthenticated(true);
         setUser(res);
@@ -82,6 +87,20 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     };
 
     checkIsValidate().catch((error) => error);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      try {
+        await authRefreshToken();
+      } catch (error) {
+        console.log(error);
+      }
+    }, 6300000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const register = async (user: DataRegister): Promise<void> => {
@@ -104,7 +123,6 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
       setUser(res);
       setIsAuthenticated(true);
     } catch (error: any) {
-      console.log(error);
       setErrorApi({
         message: error.message,
         statusCode: error.statusCode,

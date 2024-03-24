@@ -15,7 +15,7 @@ export const LoginPage = (): JSX.Element => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/plataform');
+      navigate('/platform');
     }
   }, [isAuthenticated]);
 
