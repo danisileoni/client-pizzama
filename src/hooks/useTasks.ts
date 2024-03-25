@@ -2,15 +2,14 @@ import { createContext, useContext } from 'react';
 
 type TasksContextProps = {};
 
-export const AuthContext = createContext<AuthContextProps>(
+export const TasksContext = createContext<TasksContextProps>(
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  {} as AuthContextProps,
+  {} as TasksContextProps,
 );
-export const useAuth = (): AuthContextProps => {
-  const context = useContext(AuthContext);
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+export const useTasks = (): TasksContextProps => {
+  const context = useContext(TasksContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useTasks must be used within an TasksProvider');
   }
   return context;
 };

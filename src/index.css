@@ -5,4 +5,13 @@
 :root {
   background-color: #1a1a1a;
   color: white;
+  position: sticky;
 }
+
+body {
+  overflow-y: scroll;
+}
+
+/* :root::-webkit-scrollbar {
+  display: none;
+} */

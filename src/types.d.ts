@@ -10,9 +10,9 @@ export interface DataLogin {
 }
 
 // Reducers
-interface DataManagmentReducer {
+export interface DataManagmentReducer {
   loading: boolean;
-  data: ProjectApi[] | undefined;
+  data: [] | undefined;
   error: string | undefined;
 }
 
@@ -89,4 +89,19 @@ export interface ProjectApi {
   assignedTasks: any[];
   slug: string;
   __v: number;
+}
+
+export interface ReportsApi {
+  _id: string;
+  projectId: string[];
+  user: User[];
+  title: string[];
+  description: string[];
+  __v: number;
+}
+
+export interface User {
+  id: string;
+  user: string;
+  fullName: string;
 }

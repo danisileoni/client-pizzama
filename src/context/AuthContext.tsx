@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
       } catch (error) {
         console.log(error);
       }
-    }, 6300000);
+    }, 7140000);
 
     return () => {
       clearInterval(intervalId);

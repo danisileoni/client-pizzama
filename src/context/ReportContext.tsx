@@ -1,17 +1,11 @@
 import { useReducer } from 'react';
-import { ProjectsContext } from '../hooks/useProjects';
-import { getAllProjects } from '../services/projectsApi';
-import Cookies from 'js-cookie';
 import { type DataManagmentReducer } from '../types';
+import { ReportContext } from '../hooks/useReport';
+import { getAllReports } from '../services/reportsApi';
+import Cookies from 'js-cookie';
 
 interface props {
   children: JSX.Element | JSX.Element[];
-}
-
-const enum ActionData {
-  FETCH_START = 'FETCH_START',
-  FETCH_SUCCESS = 'FETCH_SUCCESS',
-  FETCH_ERROR = 'FETCH_ERROR',
 }
 
 type Action = { type: string; payload?: any };
@@ -22,10 +16,16 @@ const initialState = {
   error: undefined,
 };
 
-const projectDataManagmentReducer: React.Reducer<
-  DataManagmentReducer,
-  Action
-> = (state: DataManagmentReducer, action: Action): DataManagmentReducer => {
+const enum ActionData {
+  FETCH_START = 'FETCH_START',
+  FETCH_SUCCESS = 'FETCH_SUCCESS',
+  FETCH_ERROR = 'FETCH_ERROR',
+}
+
+const reportDataManagmentReducer = (
+  state: DataManagmentReducer,
+  action: Action,
+): DataManagmentReducer => {
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
@@ -48,17 +48,17 @@ const projectDataManagmentReducer: React.Reducer<
   }
 };
 
-export const ProjectsProvider = ({ children }: props): JSX.Element => {
+export const RerportProvider = ({ children }: props): JSX.Element => {
   const [state, dispatch] = useReducer(
-    projectDataManagmentReducer,
+    reportDataManagmentReducer,
     initialState,
   );
 
   const findAll = async (): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
     try {
-      dispatch({ type: ActionData.FETCH_START });
       const cookies = Cookies.get();
-      const res = await getAllProjects(cookies.token);
+      const res = await getAllReports(cookies.token);
       dispatch({ type: ActionData.FETCH_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });
@@ -66,8 +66,8 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
   };
 
   return (
-    <ProjectsContext.Provider value={{ findAll, state }}>
+    <ReportContext.Provider value={{ findAll, state }}>
       {children}
-    </ProjectsContext.Provider>
+    </ReportContext.Provider>
   );
 };
