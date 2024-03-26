@@ -87,6 +87,7 @@ export interface ProjectApi {
   isActive: boolean;
   assignedUsers: any[];
   assignedTasks: any[];
+  assignedReports: any[];
   slug: string;
   __v: number;
 }

@@ -18,3 +18,19 @@ export const getAllReports = async (token: string): Promise<ReportsApi> => {
 
   return data;
 };
+export const getLatestReports = async (token: string): Promise<ReportsApi> => {
+  const response = await fetch(`${API}/latest`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};

@@ -22,6 +22,7 @@ function App(): JSX.Element {
               <Route path="*" element={<NotFound />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/platform" element={<PlatformPage />} />
+                <Route path="/platform/project/:projectId" />
               </Route>
             </Routes>
           </BrowserRouter>

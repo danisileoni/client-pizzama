@@ -11,24 +11,25 @@ export const Navbar = (): JSX.Element => {
         Pizzma
       </Link>
       <Search placeholder="Search Project" />
-      <div className="flex justify-between gap-8">
+      <div className="flex justify-between gap-2">
         <Link
-          to="/plataform"
-          className="flex flex-col justify-center items-center"
+          to="/platform"
+          className="flex flex-col min-w-14 pr-2 pl-2 pb-1 pt-1 rounded-md hover:transition-all hover:bg-indigo-700 justify-center items-center hover:shadow-md"
         >
           <IconHome tCss="w-6 h-6" />
-          <span className="text-xs">home</span>
+          <span className="text-xs">Home</span>
         </Link>
         <Link
           to="/plataform"
-          className="flex flex-col justify-center items-center"
+          className="flex flex-col min-w-14 pr-2 pl-2 pb-1 pt-1 rounded-md hover:transition-all hover:bg-indigo-700 justify-center hover:shadow-md items-center"
         >
           <IconTasks tCss="w-6 h-6" />
-          <span className="text-xs">Your Tasks</span>
+          <span className="text-xs">Tasks</span>
         </Link>
       </div>
-      <button>
+      <button className="flex flex-col min-w-14 min-h-12 pr-2 pl-2 pb-1 pt-1 rounded-md hover:transition-all hover:bg-indigo-700 justify-center hover:shadow-md items-center">
         <IconSetting tCss="h-6 w-6 text-withe" />
+        <span className="text-xs">Settings</span>
       </button>
     </nav>
   );

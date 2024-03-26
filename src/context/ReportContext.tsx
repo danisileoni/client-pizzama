@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import { type DataManagmentReducer } from '../types';
 import { ReportContext } from '../hooks/useReport';
-import { getAllReports } from '../services/reportsApi';
+import { getAllReports, getLatestReports } from '../services/reportsApi';
 import Cookies from 'js-cookie';
 
 interface props {
@@ -58,7 +58,7 @@ export const RerportProvider = ({ children }: props): JSX.Element => {
     dispatch({ type: ActionData.FETCH_START });
     try {
       const cookies = Cookies.get();
-      const res = await getAllReports(cookies.token);
+      const res = await getLatestReports(cookies.token);
       dispatch({ type: ActionData.FETCH_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });

@@ -20,3 +20,41 @@ export const getAllProjects = async (token: string): Promise<ProjectApi> => {
 
   return data;
 };
+
+export const getAllScrollProjects = async (
+  token: string,
+  offset: number,
+): Promise<ProjectApi[]> => {
+  const response = await fetch(`${API}/?offset=${offset}&limit=9`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};
+
+export const getOneProject = async (
+  token: string,
+  slug: string,
+): Promise<ProjectApi> => {
+  const response = await fetch(`${API}/${slug}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};

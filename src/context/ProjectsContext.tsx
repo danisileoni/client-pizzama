@@ -1,8 +1,8 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { ProjectsContext } from '../hooks/useProjects';
-import { getAllProjects } from '../services/projectsApi';
+import { getAllProjects, getAllScrollProjects } from '../services/projectsApi';
 import Cookies from 'js-cookie';
-import { type DataManagmentReducer } from '../types';
+import { type ProjectApi, type DataManagmentReducer } from '../types';
 
 interface props {
   children: JSX.Element | JSX.Element[];
@@ -53,6 +53,26 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
     projectDataManagmentReducer,
     initialState,
   );
+  const [offset, setOffset] = useState(0);
+  const [data, setData] = useState<ProjectApi[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const handleBtnForOffset = (): void => {
+    setOffset((prevOffset) => prevOffset + 9);
+  };
+
+  const viewMoreProject = async (): Promise<void> => {
+    if (hasMore) {
+      try {
+        const cookies = Cookies.get();
+        const res = await getAllScrollProjects(cookies.token, offset);
+        setData((prevData) => prevData.concat(res));
+        if (res.length < 9) setHasMore(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const findAll = async (): Promise<void> => {
     try {
@@ -66,7 +86,17 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
   };
 
   return (
-    <ProjectsContext.Provider value={{ findAll, state }}>
+    <ProjectsContext.Provider
+      value={{
+        findAll,
+        viewMoreProject,
+        handleBtnForOffset,
+        state,
+        data,
+        hasMore,
+        offset,
+      }}
+    >
       {children}
     </ProjectsContext.Provider>
   );
