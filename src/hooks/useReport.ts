@@ -3,6 +3,7 @@ import { type DataManagmentReducer } from '../types';
 
 type ReportContextProps = {
   findAll: () => Promise<void>;
+  findLatest: () => Promise<void>;
   state: DataManagmentReducer;
 };
 

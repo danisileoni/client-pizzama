@@ -1,6 +1,10 @@
 import { useReducer, useState } from 'react';
 import { ProjectsContext } from '../hooks/useProjects';
-import { getAllProjects, getAllScrollProjects } from '../services/projectsApi';
+import {
+  getAllProjects,
+  getAllScrollProjects,
+  getOneProject,
+} from '../services/projectsApi';
 import Cookies from 'js-cookie';
 import { type ProjectApi, type DataManagmentReducer } from '../types';
 
@@ -10,7 +14,8 @@ interface props {
 
 const enum ActionData {
   FETCH_START = 'FETCH_START',
-  FETCH_SUCCESS = 'FETCH_SUCCESS',
+  FETCH_ONE_SUCCESS = 'FETCH_ONE_SUCCESS',
+  FETCH_ALL_SUCCESS = 'FETCH_ALL_SUCCESS',
   FETCH_ERROR = 'FETCH_ERROR',
 }
 
@@ -18,7 +23,8 @@ type Action = { type: string; payload?: any };
 
 const initialState = {
   loading: false,
-  data: undefined,
+  findOne: undefined,
+  findAll: undefined,
   error: undefined,
 };
 
@@ -29,18 +35,26 @@ const projectDataManagmentReducer: React.Reducer<
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
+    case 'FETCH_ONE_SUCCESS':
       return {
         ...state,
         loading: false,
-        data: action.payload,
+        findOne: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_ALL_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        findAll: action.payload,
         error: undefined,
       };
     case 'FETCH_ERROR':
       return {
         ...state,
         loading: false,
-        data: undefined,
+        findAll: undefined,
+        findOne: undefined,
         error: action.payload,
       };
     default:
@@ -54,6 +68,7 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
     initialState,
   );
   const [offset, setOffset] = useState(0);
+  // TODO: convert data in state of useReducer
   const [data, setData] = useState<ProjectApi[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
@@ -79,7 +94,18 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
       dispatch({ type: ActionData.FETCH_START });
       const cookies = Cookies.get();
       const res = await getAllProjects(cookies.token);
-      dispatch({ type: ActionData.FETCH_SUCCESS, payload: res });
+      dispatch({ type: ActionData.FETCH_ALL_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
+  const findOne = async (slug: string): Promise<void> => {
+    try {
+      dispatch({ type: ActionData.FETCH_START });
+      const cookies = Cookies.get();
+      const res = await getOneProject(cookies.token, slug);
+      dispatch({ type: ActionData.FETCH_ONE_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
@@ -91,6 +117,7 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
         findAll,
         viewMoreProject,
         handleBtnForOffset,
+        findOne,
         state,
         data,
         hasMore,

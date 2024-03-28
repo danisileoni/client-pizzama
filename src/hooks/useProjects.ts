@@ -3,6 +3,7 @@ import { type ProjectApi, type DataManagmentReducer } from '../types';
 
 type ProjectsContextProps = {
   findAll: () => Promise<void>;
+  findOne: (slug: string) => Promise<void>;
   viewMoreProject: () => Promise<void>;
   handleBtnForOffset: () => void;
   state: DataManagmentReducer;

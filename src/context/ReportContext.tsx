@@ -10,17 +10,21 @@ interface props {
 
 type Action = { type: string; payload?: any };
 
-const initialState = {
-  loading: false,
-  data: undefined,
-  error: undefined,
-};
-
 const enum ActionData {
   FETCH_START = 'FETCH_START',
-  FETCH_SUCCESS = 'FETCH_SUCCESS',
+  FETCH_ONE_SUCCESS = 'FETCH_ONE_SUCCESS',
+  FETCH_ALL_SUCCESS = 'FETCH_ALL_SUCCESS',
+  FETCH_LATEST_SUCCESS = 'FETCH_LATEST_SUCCESS',
   FETCH_ERROR = 'FETCH_ERROR',
 }
+
+const initialState = {
+  loading: false,
+  findOne: undefined,
+  findAll: undefined,
+  findLatest: undefined,
+  error: undefined,
+};
 
 const reportDataManagmentReducer = (
   state: DataManagmentReducer,
@@ -29,18 +33,27 @@ const reportDataManagmentReducer = (
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
+    case 'FETCH_LATEST_SUCCESS':
       return {
         ...state,
         loading: false,
-        data: action.payload,
+        findLatest: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_ONE_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        findOne: action.payload,
         error: undefined,
       };
     case 'FETCH_ERROR':
       return {
         ...state,
         loading: false,
-        data: undefined,
+        findAll: undefined,
+        findOne: undefined,
+        findLatest: undefined,
         error: action.payload,
       };
     default:
@@ -54,19 +67,23 @@ export const RerportProvider = ({ children }: props): JSX.Element => {
     initialState,
   );
 
-  const findAll = async (): Promise<void> => {
+  const findLatest = async (): Promise<void> => {
     dispatch({ type: ActionData.FETCH_START });
     try {
       const cookies = Cookies.get();
       const res = await getLatestReports(cookies.token);
-      dispatch({ type: ActionData.FETCH_SUCCESS, payload: res });
+      dispatch({ type: ActionData.FETCH_LATEST_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
   };
 
+  const findAll = async (): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
+  };
+
   return (
-    <ReportContext.Provider value={{ findAll, state }}>
+    <ReportContext.Provider value={{ findLatest, findAll, state }}>
       {children}
     </ReportContext.Provider>
   );

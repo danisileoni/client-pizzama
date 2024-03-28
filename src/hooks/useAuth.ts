@@ -10,6 +10,7 @@ import {
 type AuthContextProps = {
   register: (user: DataRegister) => Promise<void>;
   login: (user: DataLogin) => Promise<void>;
+  getAllUsers: () => Promise<void>;
   user: AuthAPIRegister | undefined;
   errorApi: ErrorApi | undefined;
   errorMessage: ErrorMessage | undefined;

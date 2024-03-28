@@ -12,7 +12,9 @@ export interface DataLogin {
 // Reducers
 export interface DataManagmentReducer {
   loading: boolean;
-  data: [] | undefined;
+  findAll: [] | undefined;
+  findLatest: [] | undefined;
+  findOne: object | undefined;
   error: string | undefined;
 }
 

@@ -7,7 +7,7 @@ import { IconTasks } from './icons/IconTasks';
 export const Navbar = (): JSX.Element => {
   return (
     <nav className="pr-32 pl-32 bg-indigo-900 min-h-14 p-2 flex justify-between items-center">
-      <Link className="text-4xl font-semibold" to="/plataform">
+      <Link className="text-4xl font-semibold" to="/platform">
         Pizzma
       </Link>
       <Search placeholder="Search Project" />

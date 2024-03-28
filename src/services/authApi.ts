@@ -73,3 +73,23 @@ export const authRefreshToken = async (): Promise<VerificationToken> => {
 
   return data;
 };
+
+export const getAll = async (token: string): Promise<AuthAPIRegister[]> => {
+  const response = await fetch(API, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};
+
+// export const getOneUser = async (id: string): Promise<> => {
+
+// }

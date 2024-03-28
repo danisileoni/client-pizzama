@@ -11,6 +11,7 @@ import {
   authRefreshToken,
   authRegister,
   authVerifyRequest,
+  getAll,
 } from '../services/authApi';
 import { AuthContext } from '../hooks/useAuth';
 import Cookies from 'js-cookie';
@@ -19,6 +20,7 @@ interface props {
 }
 
 export const AuthProvider = ({ children }: props): JSX.Element => {
+  // TODO: convert in useReducer
   const [user, setUser] = useState<StateUserType | any>();
   const [errorApi, setErrorApi] = useState<ErrorApi>();
   const [errorMessage, setErrorMessage] = useState<ErrorMessage>();
@@ -131,11 +133,26 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const getAllUsers = async (): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      const res = await getAll(cookies.token);
+      setUser(res);
+    } catch (error: any) {
+      setErrorApi({
+        message: error.message,
+        statusCode: error.statusCode,
+        error: error.error,
+      });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         register,
         login,
+        getAllUsers,
         user,
         errorApi,
         errorMessage,
