@@ -10,12 +10,19 @@ export interface DataLogin {
 }
 
 // Reducers
-export interface DataManagmentReducer {
-  loading: boolean;
-  findAll: [] | undefined;
-  findLatest: [] | undefined;
-  findOne: object | undefined;
-  error: string | undefined;
+export interface ProjectManagmentReducer {
+  loading?: boolean;
+  findAll?: ProjectApi[];
+  findOne?: ProjectApi;
+  error?: string | undefined;
+}
+
+export interface ReportManagmentReducer {
+  loading?: boolean;
+  findAll?: ReportsApi[];
+  findLatest?: ReportsApi[] | undefined;
+  findOne?: ReportsApi;
+  error?: string | undefined;
 }
 
 export interface InputFormProps {
@@ -97,9 +104,21 @@ export interface ProjectApi {
 export interface ReportsApi {
   _id: string;
   projectId: string[];
-  user: User[];
+  user: User;
   title: string[];
   description: string[];
+  __v: number;
+}
+
+export interface TasksAPI {
+  _id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  backOrFront: string;
+  projectId: string[];
+  userId: string[];
   __v: number;
 }
 

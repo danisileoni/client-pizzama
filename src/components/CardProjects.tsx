@@ -19,7 +19,7 @@ export const CardProjects = (): JSX.Element => {
       {data?.map((data: ProjectApi) => {
         return (
           <Link
-            to={'/'}
+            to={`/platform/project/${data._id}`}
             className="flex container w-full flex-col p-4 mt-5 bg-zinc-700 hover:bg-zinc-600 hover:transition-all shadow-2xl hover:-translate-y-1 rounded-2xl"
             key={data._id}
           >

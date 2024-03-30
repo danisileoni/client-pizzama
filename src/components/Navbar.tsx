@@ -20,7 +20,7 @@ export const Navbar = (): JSX.Element => {
           <span className="text-xs">Home</span>
         </Link>
         <Link
-          to="/plataform"
+          to="/platform/tasks"
           className="flex flex-col min-w-14 pr-2 pl-2 pb-1 pt-1 rounded-md hover:transition-all hover:bg-indigo-700 justify-center hover:shadow-md items-center"
         >
           <IconTasks tCss="w-6 h-6" />

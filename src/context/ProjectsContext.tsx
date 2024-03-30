@@ -6,7 +6,7 @@ import {
   getOneProject,
 } from '../services/projectsApi';
 import Cookies from 'js-cookie';
-import { type ProjectApi, type DataManagmentReducer } from '../types';
+import { type ProjectApi, type ProjectManagmentReducer } from '../types';
 
 interface props {
   children: JSX.Element | JSX.Element[];
@@ -29,9 +29,12 @@ const initialState = {
 };
 
 const projectDataManagmentReducer: React.Reducer<
-  DataManagmentReducer,
+  ProjectManagmentReducer,
   Action
-> = (state: DataManagmentReducer, action: Action): DataManagmentReducer => {
+> = (
+  state: ProjectManagmentReducer,
+  action: Action,
+): ProjectManagmentReducer => {
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };

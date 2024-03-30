@@ -1,7 +1,11 @@
 import { useReducer } from 'react';
-import { type DataManagmentReducer } from '../types';
+import { type ReportManagmentReducer } from '../types';
 import { ReportContext } from '../hooks/useReport';
-import { getAllReports, getLatestReports } from '../services/reportsApi';
+import {
+  getAllReports,
+  getLatestReports,
+  getOneReport,
+} from '../services/reportsApi';
 import Cookies from 'js-cookie';
 
 interface props {
@@ -27,9 +31,9 @@ const initialState = {
 };
 
 const reportDataManagmentReducer = (
-  state: DataManagmentReducer,
+  state: ReportManagmentReducer,
   action: Action,
-): DataManagmentReducer => {
+): ReportManagmentReducer => {
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
@@ -45,6 +49,13 @@ const reportDataManagmentReducer = (
         ...state,
         loading: false,
         findOne: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_ALL_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        findAll: action.payload,
         error: undefined,
       };
     case 'FETCH_ERROR':
@@ -80,10 +91,28 @@ export const RerportProvider = ({ children }: props): JSX.Element => {
 
   const findAll = async (): Promise<void> => {
     dispatch({ type: ActionData.FETCH_START });
+    try {
+      const cookies = Cookies.get();
+      const res = await getAllReports(cookies.token);
+      dispatch({ type: ActionData.FETCH_ALL_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
+  const findOne = async (id: string): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
+    try {
+      const cookies = Cookies.get();
+      const res = await getOneReport(cookies.token, id);
+      dispatch({ type: ActionData.FETCH_ONE_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
   };
 
   return (
-    <ReportContext.Provider value={{ findLatest, findAll, state }}>
+    <ReportContext.Provider value={{ findLatest, findAll, findOne, state }}>
       {children}
     </ReportContext.Provider>
   );

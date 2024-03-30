@@ -9,6 +9,8 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { ProjectsProvider } from './context/ProjectsContext';
 import { RerportProvider } from './context/ReportContext';
 import { DetailsProject } from './components/DetailsProject';
+import { DetailsReport } from './components/DetailsReport';
+import { TasksPage } from './pages/TasksPage';
 
 function App(): JSX.Element {
   return (
@@ -23,9 +25,14 @@ function App(): JSX.Element {
               <Route path="*" element={<NotFound />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/platform" element={<PlatformPage />} />
+                <Route path="/platform/tasks" element={<TasksPage />} />
                 <Route
                   path="/platform/project/:projectId"
                   element={<DetailsProject />}
+                />
+                <Route
+                  path="/platform/report/:reportId"
+                  element={<DetailsReport />}
                 />
               </Route>
             </Routes>
