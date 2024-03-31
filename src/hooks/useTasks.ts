@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react';
+import { type TasksManagmentReducer } from '../types';
 
-type TasksContextProps = {};
+type TasksContextProps = {
+  getForUser: () => Promise<void>;
+  getOne: (id: string) => Promise<void>;
+  state: TasksManagmentReducer;
+};
 
 export const TasksContext = createContext<TasksContextProps>(
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions

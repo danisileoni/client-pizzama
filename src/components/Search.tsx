@@ -67,7 +67,7 @@ export const Search = ({ placeholder }: Props): JSX.Element => {
           className={`flex flex-col absolute ${searchFound?.length ? 'bg-1f1f1f' : ''} -translate-y-4 pt-4 w-full`}
           style={{ zIndex: 1 }}
         >
-          {searchFound?.map((data: ProjectApi) => (
+          {searchFound?.map((data) => (
             <Link
               className="p-2 hover:bg-zinc-700 "
               key={data._id}

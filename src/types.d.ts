@@ -20,8 +20,16 @@ export interface ProjectManagmentReducer {
 export interface ReportManagmentReducer {
   loading?: boolean;
   findAll?: ReportsApi[];
-  findLatest?: ReportsApi[] | undefined;
+  findLatest?: ReportsApi[];
   findOne?: ReportsApi;
+  error?: string | undefined;
+}
+
+export interface TasksManagmentReducer {
+  loading?: boolean;
+  findAll?: TasksAPI[];
+  findOne?: TasksAPI;
+  findForUser?: TasksAPI[];
   error?: string | undefined;
 }
 
