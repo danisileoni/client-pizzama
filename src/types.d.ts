@@ -10,10 +10,20 @@ export interface DataLogin {
 }
 
 // Reducers
+export interface AuthManagmentReducer {
+  loading?: boolean;
+  authenticated?: boolean;
+  userData?: StateTypeUser;
+  findAll?: AuthRegister[];
+  activeData?: AuthRegister;
+  error?: undefined | ErrorApi;
+}
+
 export interface ProjectManagmentReducer {
   loading?: boolean;
   findAll?: ProjectApi[];
   findOne?: ProjectApi;
+  findForUser?: ProjectApi[];
   error?: string | undefined;
 }
 
@@ -53,9 +63,9 @@ export interface Errors {
   passwordConfirm?: string | undefined;
 }
 export interface ErrorApi {
-  message?: string;
-  error?: string;
-  statusCode?: number;
+  message: string;
+  error: string;
+  statusCode: number;
 }
 
 export interface ErrorMessage {

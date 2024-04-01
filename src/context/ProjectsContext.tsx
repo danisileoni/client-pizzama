@@ -4,6 +4,7 @@ import {
   getAllProjects,
   getAllScrollProjects,
   getOneProject,
+  getProjectForUser,
 } from '../services/projectsApi';
 import Cookies from 'js-cookie';
 import { type ProjectApi, type ProjectManagmentReducer } from '../types';
@@ -16,6 +17,7 @@ const enum ActionData {
   FETCH_START = 'FETCH_START',
   FETCH_ONE_SUCCESS = 'FETCH_ONE_SUCCESS',
   FETCH_ALL_SUCCESS = 'FETCH_ALL_SUCCESS',
+  FETCH_FOR_USER_SUCCESS = 'FETCH_FOR_USER_SUCCESS',
   FETCH_ERROR = 'FETCH_ERROR',
 }
 
@@ -25,6 +27,7 @@ const initialState = {
   loading: false,
   findOne: undefined,
   findAll: undefined,
+  findForUser: undefined,
   error: undefined,
 };
 
@@ -50,6 +53,13 @@ const projectDataManagmentReducer: React.Reducer<
         ...state,
         loading: false,
         findAll: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_FOR_USER_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        findForUser: action.payload,
         error: undefined,
       };
     case 'FETCH_ERROR':
@@ -93,8 +103,8 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
   };
 
   const findAll = async (): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
     try {
-      dispatch({ type: ActionData.FETCH_START });
       const cookies = Cookies.get();
       const res = await getAllProjects(cookies.token);
       dispatch({ type: ActionData.FETCH_ALL_SUCCESS, payload: res });
@@ -104,11 +114,22 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
   };
 
   const findOne = async (slug: string): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
     try {
-      dispatch({ type: ActionData.FETCH_START });
       const cookies = Cookies.get();
       const res = await getOneProject(cookies.token, slug);
       dispatch({ type: ActionData.FETCH_ONE_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
+  const findForUser = async (): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
+    try {
+      const cookies = Cookies.get();
+      const res = await getProjectForUser(cookies.token);
+      dispatch({ type: ActionData.FETCH_FOR_USER_SUCCESS, payload: res });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
@@ -121,6 +142,7 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
         viewMoreProject,
         handleBtnForOffset,
         findOne,
+        findForUser,
         state,
         data,
         hasMore,

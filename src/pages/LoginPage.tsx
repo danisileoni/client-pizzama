@@ -10,14 +10,14 @@ export const LoginPage = (): JSX.Element => {
     password: '',
   });
   const [errorEmpty, setErrorEmpty] = useState<boolean>(false);
-  const { login, errorMessage, isAuthenticated } = useAuth();
+  const { login, errorMessage, state } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (state.authenticated) {
       navigate('/platform');
     }
-  }, [isAuthenticated]);
+  }, [state.authenticated]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();

@@ -58,3 +58,20 @@ export const getOneProject = async (
 
   return data;
 };
+
+export const getProjectForUser = async (token: string): Promise<ProjectApi> => {
+  const response = await fetch(`${API}/user/for-user`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};

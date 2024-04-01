@@ -90,6 +90,21 @@ export const getAll = async (token: string): Promise<AuthAPIRegister[]> => {
   return data;
 };
 
-// export const getOneUser = async (id: string): Promise<> => {
+export const getUserActive = async (
+  token: string,
+): Promise<AuthAPIRegister> => {
+  const response = await fetch(`${API}/user/active`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: 'include',
+  });
 
-// }
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};

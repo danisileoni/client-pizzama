@@ -22,10 +22,12 @@ export const PlatformLayout = (): JSX.Element => {
             ''
           )}
         </section>
-        <section className="flex items-center w-full flex-col max-w-xs md:max-w-sm container bg-zinc-800 p-5 rounded-e-xl">
-          <h1 className="text-3xl text-white w-full mb-2">Latest Reports</h1>
-          <CardReports />
-        </section>
+        <div>
+          <section className="flex items-center w-full flex-col max-w-xs md:max-w-sm container bg-zinc-800 p-5 rounded-e-xl">
+            <h1 className="text-3xl text-white w-full mb-2">Latest Reports</h1>
+            <CardReports />
+          </section>
+        </div>
       </div>
     </div>
   );

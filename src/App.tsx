@@ -13,6 +13,7 @@ import { DetailsReport } from './components/DetailsReport';
 import { TasksPage } from './pages/TasksPage';
 import { TasksProvider } from './context/TasksContext';
 import { DetailsTasks } from './components/DetailsTasks';
+import { ProjectsPage } from './pages/ProjectsPage';
 
 function App(): JSX.Element {
   return (
@@ -29,7 +30,7 @@ function App(): JSX.Element {
                 <Route element={<ProtectedRoute />}>
                   <Route path="/platform" element={<PlatformPage />} />
                   <Route path="/platform/tasks" element={<TasksPage />} />
-                  <Route path="/platform/projects" element={<TasksPage />} />
+                  <Route path="/platform/projects" element={<ProjectsPage />} />
                   {/* routes whit id */}
                   <Route
                     path="/platform/task/:taskId"

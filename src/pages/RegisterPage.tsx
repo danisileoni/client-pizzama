@@ -6,14 +6,14 @@ import { useEffect } from 'react';
 
 export const RegisterPage = (): JSX.Element => {
   const { data, errors, handleChange, validObjectData } = useFormRegister();
-  const { register, errorMessage, isAuthenticated } = useAuth();
+  const { register, errorMessage, state } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (state.authenticated) {
       navigate('/platform');
     }
-  }, [isAuthenticated]);
+  }, [state.authenticated]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();

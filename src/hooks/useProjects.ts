@@ -6,6 +6,7 @@ type ProjectsContextProps = {
   findOne: (slug: string) => Promise<void>;
   viewMoreProject: () => Promise<void>;
   handleBtnForOffset: () => void;
+  findForUser: () => Promise<void>;
   state: ProjectManagmentReducer;
   data: ProjectApi[];
   offset: number;

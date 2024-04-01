@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
-  type ErrorApi,
   type ErrorMessage,
   type DataRegister,
   type DataLogin,
-  type StateUserType,
+  type AuthManagmentReducer,
 } from '../types.d';
 import {
   authLogin,
@@ -12,26 +11,112 @@ import {
   authRegister,
   authVerifyRequest,
   getAll,
+  getUserActive,
 } from '../services/authApi';
 import { AuthContext } from '../hooks/useAuth';
 import Cookies from 'js-cookie';
+
 interface props {
   children: JSX.Element | JSX.Element[];
 }
 
+const enum ActionData {
+  FETCH_START = 'FETCH_START',
+  CHECK_IS_NOT_VALID = 'CHECK_IS_NOT_VALID',
+  CHECK_IS_VALID = 'CHECK_IS_VALID',
+  FETCH_REGISTER = 'FETCH_REGISTER',
+  FETCH_LOGIN = 'FETCH_LOGIN',
+  FETCH_FIND_ALL = 'FETCH_FIND_ALL',
+  FETCH_ACTIVE_USER = 'FETCH_ACTIVE_USER',
+  FETCH_ERROR = 'FETCH_ERROR',
+}
+
+type Action = { type: string; payload?: any };
+
+const initialState = {
+  loading: true,
+  authenticated: false,
+  userData: undefined,
+  findAll: undefined,
+  activeData: undefined,
+  error: undefined,
+};
+
+const authManagmentReducer: React.Reducer<AuthManagmentReducer, Action> = (
+  state,
+  action,
+) => {
+  switch (action.type) {
+    case 'FETCH_START':
+      return {
+        ...state,
+        loading: true,
+        error: undefined,
+      };
+    case 'CHECK_IS_NOT_VALID':
+      return {
+        ...state,
+        loading: false,
+        authenticated: false,
+        userData: undefined,
+        error: undefined,
+      };
+    case 'CHECK_IS_VALID':
+      return {
+        ...state,
+        loading: false,
+        authenticated: true,
+        userData: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_REGISTER':
+      return {
+        ...state,
+        authenticated: true,
+        userData: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_LOGIN':
+      return {
+        ...state,
+        authenticated: true,
+        userData: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_FIND_ALL':
+      return {
+        ...state,
+        loading: false,
+        findAll: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_ACTIVE_USER':
+      return {
+        ...state,
+        loading: false,
+        activeData: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_ERROR':
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export const AuthProvider = ({ children }: props): JSX.Element => {
-  // TODO: convert in useReducer
-  const [user, setUser] = useState<StateUserType | any>();
-  const [errorApi, setErrorApi] = useState<ErrorApi>();
+  const [state, dispatch] = useReducer(authManagmentReducer, initialState);
   const [errorMessage, setErrorMessage] = useState<ErrorMessage>();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (errorApi?.statusCode === 409) {
-      const emailOrUser = errorApi?.message?.split(/[ "\/\{\}:\\]+/);
+    if (state.error?.statusCode === 409) {
+      const emailOrUser = state.error?.message?.split(/[ "\/\{\}:\\]+/);
       const errorType = emailOrUser?.find(
-        (error) => error === 'email' || error === 'user',
+        (error: string) => error === 'email' || error === 'user',
       );
 
       if (errorType === 'user') {
@@ -51,8 +136,8 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
       }
     }
 
-    if (errorApi?.message === 'Credentials are not valid') {
-      setErrorMessage({ message: errorApi?.message });
+    if (state.error?.message === 'Credentials are not valid') {
+      setErrorMessage({ message: state.error?.message });
       const timeoutId = setTimeout(() => {
         setErrorMessage({ message: undefined });
       }, 3000);
@@ -61,30 +146,21 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         clearTimeout(timeoutId);
       };
     }
-  }, [errorApi]);
+  }, [state.error]);
 
   useEffect(() => {
     const checkIsValidate = async (): Promise<void> => {
       const cookies = Cookies.get();
       if (!cookies.token) {
-        setIsLoading(false);
-        setIsAuthenticated(false);
-        setUser(null);
+        dispatch({ type: ActionData.CHECK_IS_NOT_VALID });
         return;
       }
 
       try {
         const res = await authVerifyRequest();
-        setIsLoading(false);
-        setIsAuthenticated(true);
-        setUser(res);
-        setIsLoading(false);
-        setIsAuthenticated(true);
-        setUser(res);
+        dispatch({ type: ActionData.CHECK_IS_VALID, payload: res });
       } catch (error: any) {
-        setIsLoading(false);
-        setIsAuthenticated(false);
-        setUser(null);
+        dispatch({ type: ActionData.CHECK_IS_NOT_VALID });
       }
     };
 
@@ -108,28 +184,18 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
   const register = async (user: DataRegister): Promise<void> => {
     try {
       const res = await authRegister(user);
-      setUser(res);
-      setIsAuthenticated(true);
-    } catch (error: any) {
-      setErrorApi({
-        message: error.message,
-        statusCode: error.statusCode,
-        error: error.error,
-      });
+      dispatch({ type: ActionData.FETCH_REGISTER, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
   };
 
   const login = async (user: DataLogin): Promise<void> => {
     try {
       const res = await authLogin(user);
-      setUser(res);
-      setIsAuthenticated(true);
-    } catch (error: any) {
-      setErrorApi({
-        message: error.message,
-        statusCode: error.statusCode,
-        error: error.error,
-      });
+      dispatch({ type: ActionData.FETCH_LOGIN, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
   };
 
@@ -137,13 +203,19 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     try {
       const cookies = Cookies.get();
       const res = await getAll(cookies.token);
-      setUser(res);
-    } catch (error: any) {
-      setErrorApi({
-        message: error.message,
-        statusCode: error.statusCode,
-        error: error.error,
-      });
+      dispatch({ type: ActionData.FETCH_FIND_ALL, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
+  const getActive = async (): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      const res = await getUserActive(cookies.token);
+      dispatch({ type: ActionData.FETCH_ACTIVE_USER, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
   };
 
@@ -153,11 +225,9 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         register,
         login,
         getAllUsers,
-        user,
-        errorApi,
+        getActive,
+        state,
         errorMessage,
-        isAuthenticated,
-        isLoading,
       }}
     >
       {children}

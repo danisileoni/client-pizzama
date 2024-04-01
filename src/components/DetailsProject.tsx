@@ -9,9 +9,10 @@ import { useReport } from '../hooks/useReport';
 export const DetailsProject = (): JSX.Element => {
   const { projectId } = useParams();
   const { findOne, state: stateProject } = useProject();
-  const { getAllUsers, user: users } = useAuth();
+  const { getAllUsers, state: stateUser } = useAuth();
   const { findAll: findAllReports, state: stateReports } = useReport();
   const stateProjectRef = useRef<ProjectManagmentReducer>();
+  const { findAll: users } = stateUser;
 
   useEffect(() => {
     async function resData(): Promise<void> {
@@ -30,9 +31,20 @@ export const DetailsProject = (): JSX.Element => {
     <>
       <Navbar />
       <div className="mt-5 flex flex-col justify-center items-center m-auto max-w-4xl mb-10">
-        <h1 className="text-4xl font-semibold w-full mb-3">
-          {stateProject.findOne?.name} <p className="text-lg">Project</p>
-        </h1>
+        <div className="w-full flex justify-between">
+          <h1 className="text-4xl font-semibold mb-3">
+            {stateProject.findOne?.name} <p className="text-lg">Project</p>
+          </h1>
+          <div className="flex items-center">
+            {}
+            <Link
+              className="pr-3 pl-3 pt-1 pb-1 rounded-lg bg-blue-500 hover:bg-blue-700 shadow-xl hover:transition-all"
+              to={''}
+            >
+              Add Report
+            </Link>
+          </div>
+        </div>
         <div className="flex md:flex-row gap-3">
           <div className="flex-1">
             <div className=" border flex flex-col border-indigo-900 rounded-xl p-2 min-w-52 max-w-52">
@@ -46,7 +58,7 @@ export const DetailsProject = (): JSX.Element => {
                     ) {
                       return (
                         <div
-                          className="flex flex-col bg-zinc-700 p-2 rounded-xl shadow-xl"
+                          className="flex mb-2 flex-col bg-zinc-700 p-2 rounded-xl shadow-xl"
                           key={user._id}
                         >
                           <h1>{user.fullName}</h1>
@@ -68,7 +80,7 @@ export const DetailsProject = (): JSX.Element => {
           <div className="flex-1">
             <div className="flex flex-col border border-indigo-900 rounded-xl p-2 min-w-52 max-w-52">
               <h1 className="text-lg font-semibold mb-1">
-                Rerpots the project
+                Reports the project
               </h1>
               {stateReports.findAll?.map((report) => {
                 if (
@@ -78,7 +90,7 @@ export const DetailsProject = (): JSX.Element => {
                 ) {
                   return (
                     <Link
-                      className="flex flex-col bg-zinc-700 p-2 rounded-xl shadow-xl hover:bg-zinc-600 hover:transition-all"
+                      className="flex flex-col mb-2 bg-zinc-700 p-2 rounded-xl shadow-xl hover:bg-zinc-600 hover:transition-all"
                       to={`/platform/report/${report._id}`}
                       key={report._id}
                     >

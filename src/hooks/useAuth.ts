@@ -1,21 +1,18 @@
 import { createContext, useContext } from 'react';
 import {
   type DataLogin,
-  type AuthAPIRegister,
   type DataRegister,
-  type ErrorApi,
   type ErrorMessage,
+  type AuthManagmentReducer,
 } from '../types';
 
 type AuthContextProps = {
   register: (user: DataRegister) => Promise<void>;
   login: (user: DataLogin) => Promise<void>;
   getAllUsers: () => Promise<void>;
-  user: AuthAPIRegister | undefined;
-  errorApi: ErrorApi | undefined;
+  getActive: () => Promise<void>;
+  state: AuthManagmentReducer;
   errorMessage: ErrorMessage | undefined;
-  isAuthenticated: boolean;
-  isLoading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextProps>(
