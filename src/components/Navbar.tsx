@@ -32,8 +32,6 @@ export const Navbar = (): JSX.Element => {
     };
   }, []);
 
-  console.log(showOptions);
-
   return (
     <nav className="pr-32 pl-32 bg-indigo-900 min-h-14 p-2 flex justify-between items-center">
       <Link className="text-4xl font-semibold" to="/platform">

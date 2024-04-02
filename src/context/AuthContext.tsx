@@ -7,6 +7,7 @@ import {
 } from '../types.d';
 import {
   authLogin,
+  authLogout,
   authRefreshToken,
   authRegister,
   authVerifyRequest,
@@ -28,6 +29,7 @@ const enum ActionData {
   FETCH_LOGIN = 'FETCH_LOGIN',
   FETCH_FIND_ALL = 'FETCH_FIND_ALL',
   FETCH_ACTIVE_USER = 'FETCH_ACTIVE_USER',
+  FEATCH_LOGOUT = 'FEATCH_LOGOUT',
   FETCH_ERROR = 'FETCH_ERROR',
 }
 
@@ -96,6 +98,12 @@ const authManagmentReducer: React.Reducer<AuthManagmentReducer, Action> = (
         loading: false,
         activeData: action.payload,
         error: undefined,
+      };
+    case 'FEATCH_LOGOUT':
+      return {
+        ...state,
+        login: false,
+        authenticated: false,
       };
     case 'FETCH_ERROR':
       return {
@@ -219,6 +227,16 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const logout = async (): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      await authLogout(cookies.token);
+      dispatch({ type: ActionData.FEATCH_LOGOUT });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -226,6 +244,7 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         login,
         getAllUsers,
         getActive,
+        logout,
         state,
         errorMessage,
       }}

@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useEffect } from 'react';
 
 export const Settings = (): JSX.Element => {
-  const { getActive, state } = useAuth();
+  const { getActive, logout, state } = useAuth();
   const { activeData } = state;
 
   useEffect(() => {
@@ -11,6 +11,10 @@ export const Settings = (): JSX.Element => {
       await getActive();
     })();
   }, []);
+
+  const handleClick = (): void => {
+    void logout();
+  };
 
   return (
     <div className="bg-zinc-700 absolute min-w-32 -left-[4rem] flex flex-col rounded-lg">
@@ -27,7 +31,10 @@ export const Settings = (): JSX.Element => {
       ) : (
         ''
       )}
-      <button className="bg-indigo-700 hover:bg-indigo-800 p-[2px]">
+      <button
+        onClick={handleClick}
+        className="bg-indigo-700 hover:bg-indigo-800 p-[2px]"
+      >
         Logout
       </button>
     </div>

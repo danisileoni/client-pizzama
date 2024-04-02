@@ -11,6 +11,7 @@ type AuthContextProps = {
   login: (user: DataLogin) => Promise<void>;
   getAllUsers: () => Promise<void>;
   getActive: () => Promise<void>;
+  logout: () => Promise<void>;
   state: AuthManagmentReducer;
   errorMessage: ErrorMessage | undefined;
 };

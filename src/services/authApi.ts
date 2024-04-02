@@ -108,3 +108,20 @@ export const getUserActive = async (
 
   return data;
 };
+
+export const authLogout = async (token: string): Promise<string> => {
+  const response = await fetch(`${API}/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};
