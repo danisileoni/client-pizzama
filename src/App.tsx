@@ -14,6 +14,7 @@ import { TasksPage } from './pages/TasksPage';
 import { TasksProvider } from './context/TasksContext';
 import { DetailsTasks } from './components/DetailsTasks';
 import { ProjectsPage } from './pages/ProjectsPage';
+import { CreateReport } from './components/CreateReport';
 
 function App(): JSX.Element {
   return (
@@ -39,6 +40,10 @@ function App(): JSX.Element {
                   <Route
                     path="/platform/project/:projectId"
                     element={<DetailsProject />}
+                  />
+                  <Route
+                    path="/platform/project/create-report/:projectId"
+                    element={<CreateReport />}
                   />
                   <Route
                     path="/platform/report/:reportId"

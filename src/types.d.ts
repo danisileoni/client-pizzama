@@ -15,7 +15,7 @@ export interface AuthManagmentReducer {
   authenticated?: boolean;
   userData?: StateTypeUser;
   findAll?: AuthRegister[];
-  activeData?: AuthRegister;
+  activeData?: AtuhActive;
   error?: undefined | ErrorApi;
 }
 
@@ -95,6 +95,12 @@ export interface AuthRegister {
 export interface AuthAPILogin extends StateUserType {
   user?: string;
   id?: string;
+}
+
+export interface AtuhActive {
+  user?: string;
+  id?: string;
+  fullName?: string;
 }
 
 type StateUserType = AuthAPIRegister | AuthAPILogin;

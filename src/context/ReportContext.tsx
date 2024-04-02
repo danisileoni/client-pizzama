@@ -5,6 +5,7 @@ import {
   getAllReports,
   getLatestReports,
   getOneReport,
+  postCreateReport,
 } from '../services/reportsApi';
 import Cookies from 'js-cookie';
 
@@ -111,8 +112,22 @@ export const RerportProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const createReport = async (
+    dataReport: object,
+    projectId: string,
+  ): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      await postCreateReport(cookies.token, projectId, dataReport);
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   return (
-    <ReportContext.Provider value={{ findLatest, findAll, findOne, state }}>
+    <ReportContext.Provider
+      value={{ findLatest, findAll, findOne, createReport, state }}
+    >
       {children}
     </ReportContext.Provider>
   );

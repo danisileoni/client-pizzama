@@ -9,16 +9,17 @@ import { useReport } from '../hooks/useReport';
 export const DetailsProject = (): JSX.Element => {
   const { projectId } = useParams();
   const { findOne, state: stateProject } = useProject();
-  const { getAllUsers, state: stateUser } = useAuth();
+  const { getAllUsers, getActive, state: stateUser } = useAuth();
   const { findAll: findAllReports, state: stateReports } = useReport();
   const stateProjectRef = useRef<ProjectManagmentReducer>();
-  const { findAll: users } = stateUser;
+  const { findAll: users, activeData: activeUser } = stateUser;
 
   useEffect(() => {
     async function resData(): Promise<void> {
       if (projectId) await findOne(projectId);
       await getAllUsers();
       await findAllReports();
+      await getActive();
     }
     void resData();
   }, [projectId]);
@@ -36,13 +37,16 @@ export const DetailsProject = (): JSX.Element => {
             {stateProject.findOne?.name} <p className="text-lg">Project</p>
           </h1>
           <div className="flex items-center">
-            {}
-            <Link
-              className="pr-3 pl-3 pt-1 pb-1 rounded-lg bg-blue-500 hover:bg-blue-700 shadow-xl hover:transition-all"
-              to={''}
-            >
-              Add Report
-            </Link>
+            {stateProject.findOne?.assignedUsers.includes(activeUser?.id) ? (
+              <Link
+                className="pr-3 pl-3 pt-1 pb-1 rounded-lg bg-blue-500 hover:bg-blue-700 shadow-xl hover:transition-all"
+                to={`/platform/project/create-report/${projectId}`}
+              >
+                Add Report
+              </Link>
+            ) : (
+              ''
+            )}
           </div>
         </div>
         <div className="flex md:flex-row gap-3">
@@ -71,11 +75,13 @@ export const DetailsProject = (): JSX.Element => {
                 : null}
             </div>
           </div>
-          <div className="border border-indigo-900 rounded-xl p-2">
-            <h1 className="text-lg font-semibold mb-1">Description</h1>
-            <p className="max-w-lg bg-zinc-800 p-3 rounded-md">
-              {stateProject.findOne?.description}
-            </p>
+          <div>
+            <div className="border border-indigo-900 rounded-xl p-2">
+              <h1 className="text-lg font-semibold mb-1">Description</h1>
+              <p className="max-w-lg min-w-lg bg-zinc-800 p-3 rounded-md">
+                {stateProject.findOne?.description}
+              </p>
+            </div>
           </div>
           <div className="flex-1">
             <div className="flex flex-col border border-indigo-900 rounded-xl p-2 min-w-52 max-w-52">

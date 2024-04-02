@@ -13,6 +13,9 @@ export default {
       },
       zIndex: {
         '1': -1,
+      },
+      minWidth: {
+        'lg': '32rem'
       }
     },
   },

@@ -55,3 +55,27 @@ export const getOneReport = async (
 
   return data;
 };
+
+export const postCreateReport = async (
+  token: string,
+  projectId: string,
+  dataReport: object,
+): Promise<ReportsApi> => {
+  const response = await fetch(`${API}/create-report/${projectId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(dataReport),
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+
+  if (response.status !== 201) throw data;
+
+  return data;
+};

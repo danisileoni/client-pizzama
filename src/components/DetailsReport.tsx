@@ -18,7 +18,7 @@ export const DetailsReport = (): JSX.Element => {
 
   useEffect(() => {
     async function callFetchsData(): Promise<void> {
-      if (reportId && !reportData) {
+      if (reportId) {
         await findOneReport(reportId);
         await findLatest();
       }
@@ -28,7 +28,7 @@ export const DetailsReport = (): JSX.Element => {
       }
     }
     void callFetchsData();
-  }, [reportData]);
+  }, [reportId]);
 
   return (
     <>
@@ -50,11 +50,13 @@ export const DetailsReport = (): JSX.Element => {
           by: {reportData?.user.user}
         </h4>
         <div className="flex gap-10 mt-5">
-          <div className="border border-indigo-900 rounded-xl p-2">
-            <h5 className="text-lg font-semibold mb-1">Report</h5>
-            <p className="max-w-lg bg-zinc-800 p-3 rounded-md">
-              {reportData?.description}
-            </p>
+          <div>
+            <div className="border border-indigo-900 rounded-xl p-2">
+              <h5 className="text-lg font-semibold mb-1">Report</h5>
+              <p className="whitespace-pre-wrap break-words min-w-lg max-w-lg bg-zinc-800 p-3 rounded-md whitespace-wrap">
+                {reportData?.description}
+              </p>
+            </div>
           </div>
           <div>
             <div className="flex items-center flex-col max-w-xs container bg-zinc-800 p-4 rounded-xl">

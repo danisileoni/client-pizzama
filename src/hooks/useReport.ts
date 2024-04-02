@@ -5,6 +5,7 @@ type ReportContextProps = {
   findAll: () => Promise<void>;
   findLatest: () => Promise<void>;
   findOne: (id: string) => Promise<void>;
+  createReport: (dataReport: object, projectId: string) => Promise<void>;
   state: ReportManagmentReducer;
 };
 
