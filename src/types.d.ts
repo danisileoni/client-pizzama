@@ -101,6 +101,7 @@ export interface AtuhActive {
   user?: string;
   id?: string;
   fullName?: string;
+  roles: string[];
 }
 
 type StateUserType = AuthAPIRegister | AuthAPILogin;

@@ -16,7 +16,8 @@ export default {
       },
       minWidth: {
         'lg': '32rem'
-      }
+      },
+
     },
   },
   plugins: [],

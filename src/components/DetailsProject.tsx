@@ -62,7 +62,7 @@ export const DetailsProject = (): JSX.Element => {
                     ) {
                       return (
                         <div
-                          className="flex mb-2 flex-col bg-zinc-700 p-2 rounded-xl shadow-xl"
+                          className="flex mb-2 flex-col bg-zinc-700 p-2 rounded-xl shadow-lg"
                           key={user._id}
                         >
                           <h1>{user.fullName}</h1>
@@ -96,7 +96,7 @@ export const DetailsProject = (): JSX.Element => {
                 ) {
                   return (
                     <Link
-                      className="flex flex-col mb-2 bg-zinc-700 p-2 rounded-xl shadow-xl hover:bg-zinc-600 hover:transition-all"
+                      className="flex flex-col mb-2 bg-zinc-700 p-2 rounded-xl shadow-lg hover:bg-zinc-600 hover:transition-all"
                       to={`/platform/report/${report._id}`}
                       key={report._id}
                     >

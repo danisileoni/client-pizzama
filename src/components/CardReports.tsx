@@ -27,7 +27,7 @@ export const CardReports = (): JSX.Element => {
           <Link
             key={data?._id}
             to={`/platform/report/${data._id}`}
-            className="flex flex-col p-3 mt-3 w-full bg-zinc-700 shadow-2xl hover:bg-zinc-600 hover:transition rounded-2xl hover:-translate-y-1"
+            className="flex flex-col p-3 mt-3 w-full bg-zinc-700 shadow-lg hover:bg-zinc-600 hover:transition rounded-2xl hover:-translate-y-1"
           >
             <h1 className="text-link">{data?.title}</h1>
             <h2 className="text-xs">{projectName}</h2>

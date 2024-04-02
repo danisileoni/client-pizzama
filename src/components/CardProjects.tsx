@@ -20,7 +20,7 @@ export const CardProjects = (): JSX.Element => {
         return (
           <Link
             to={`/platform/project/${data._id}`}
-            className="flex container w-full flex-col p-4 mt-5 bg-zinc-700 hover:bg-zinc-600 hover:transition-all shadow-2xl hover:-translate-y-1 rounded-2xl"
+            className="flex container w-full flex-col p-4 mt-5 bg-zinc-700 hover:bg-zinc-600 hover:transition-all shadow-lg hover:-translate-y-1 rounded-2xl"
             key={data._id}
           >
             <h1 className="text-xl text-link">{data.name}</h1>
