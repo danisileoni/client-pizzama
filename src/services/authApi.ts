@@ -4,6 +4,8 @@ import {
   type DataRegister,
   type AuthAPILogin,
   type VerificationToken,
+  type AtuhActive,
+  type AuthRegister,
 } from '../types';
 
 const API = 'http://localhost:3000/api/auth';
@@ -90,9 +92,27 @@ export const getAll = async (token: string): Promise<AuthAPIRegister[]> => {
   return data;
 };
 
-export const getUserActive = async (
+export const getOne = async (
   token: string,
-): Promise<AuthAPIRegister> => {
+  id: string,
+): Promise<AuthRegister> => {
+  const response = await fetch(`${API}/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};
+
+export const getUserActive = async (token: string): Promise<AtuhActive> => {
   const response = await fetch(`${API}/user/active`, {
     method: 'GET',
     headers: {

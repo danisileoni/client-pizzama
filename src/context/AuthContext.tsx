@@ -12,6 +12,7 @@ import {
   authRegister,
   authVerifyRequest,
   getAll,
+  getOne,
   getUserActive,
 } from '../services/authApi';
 import { AuthContext } from '../hooks/useAuth';
@@ -28,6 +29,7 @@ const enum ActionData {
   FETCH_REGISTER = 'FETCH_REGISTER',
   FETCH_LOGIN = 'FETCH_LOGIN',
   FETCH_FIND_ALL = 'FETCH_FIND_ALL',
+  FETCH_FIND_ONE = 'FETCH_FIND_ONE',
   FETCH_ACTIVE_USER = 'FETCH_ACTIVE_USER',
   FEATCH_LOGOUT = 'FEATCH_LOGOUT',
   FETCH_ERROR = 'FETCH_ERROR',
@@ -40,6 +42,7 @@ const initialState = {
   authenticated: false,
   userData: undefined,
   findAll: undefined,
+  findOne: undefined,
   activeData: undefined,
   error: undefined,
 };
@@ -90,6 +93,13 @@ const authManagmentReducer: React.Reducer<AuthManagmentReducer, Action> = (
         ...state,
         loading: false,
         findAll: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_FIND_ONE':
+      return {
+        ...state,
+        loading: false,
+        findOne: action.payload,
         error: undefined,
       };
     case 'FETCH_ACTIVE_USER':
@@ -227,6 +237,16 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const getOneUser = async (id: string): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      const res = await getOne(cookies.token, id);
+      dispatch({ type: ActionData.FETCH_FIND_ONE, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   const logout = async (): Promise<void> => {
     try {
       const cookies = Cookies.get();
@@ -243,6 +263,7 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         register,
         login,
         getAllUsers,
+        getOneUser,
         getActive,
         logout,
         state,

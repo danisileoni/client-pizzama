@@ -20,12 +20,15 @@ export const Settings = (): JSX.Element => {
     <div className="bg-zinc-700 absolute min-w-32 -left-[4rem] flex flex-col rounded-lg">
       <Link
         className="hover:bg-zinc-800 pl-2 pr-4 p-1 flex flex-row items-center"
-        to={''}
+        to={`/platform/config-user/${activeData?.id}`}
       >
         Config of user
       </Link>
       {activeData?.roles.includes('admin') ? (
-        <Link className="hover:bg-zinc-800 p-1 pl-2 pr-4" to={''}>
+        <Link
+          className="hover:bg-zinc-800 p-1 pl-2 pr-4"
+          to={'/platform/dashboard'}
+        >
           Dashboard
         </Link>
       ) : (

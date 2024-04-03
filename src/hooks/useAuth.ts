@@ -10,6 +10,7 @@ type AuthContextProps = {
   register: (user: DataRegister) => Promise<void>;
   login: (user: DataLogin) => Promise<void>;
   getAllUsers: () => Promise<void>;
+  getOneUser: (id: string) => Promise<void>;
   getActive: () => Promise<void>;
   logout: () => Promise<void>;
   state: AuthManagmentReducer;

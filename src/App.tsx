@@ -15,6 +15,8 @@ import { TasksProvider } from './context/TasksContext';
 import { DetailsTasks } from './components/DetailsTasks';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { CreateReport } from './components/CreateReport';
+import { DashboardPage } from './pages/DashboardPage';
+import { ConfigUser } from './components/ConfigUser';
 
 function App(): JSX.Element {
   return (
@@ -49,6 +51,16 @@ function App(): JSX.Element {
                     path="/platform/report/:reportId"
                     element={<DetailsReport />}
                   />
+                  <Route
+                    path="/platform/config-user/:userId"
+                    element={<ConfigUser />}
+                  />
+                  <Route element={<ProtectedRoute roles={'admin'} />}>
+                    <Route
+                      path="/platform/dashboard"
+                      element={<DashboardPage />}
+                    />
+                  </Route>
                 </Route>
               </Routes>
             </BrowserRouter>

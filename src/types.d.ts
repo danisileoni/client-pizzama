@@ -15,6 +15,7 @@ export interface AuthManagmentReducer {
   authenticated?: boolean;
   userData?: StateTypeUser;
   findAll?: AuthRegister[];
+  findOne?: AuthRegister;
   activeData?: AtuhActive;
   error?: undefined | ErrorApi;
 }
@@ -95,6 +96,8 @@ export interface AuthRegister {
 export interface AuthAPILogin extends StateUserType {
   user?: string;
   id?: string;
+  roles: string[];
+  email: string;
 }
 
 export interface AtuhActive {
