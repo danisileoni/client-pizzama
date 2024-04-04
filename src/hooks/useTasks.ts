@@ -4,6 +4,7 @@ import { type TasksManagementReducer } from '../types';
 type TasksContextProps = {
   getForUser: () => Promise<void>;
   getOne: (id: string) => Promise<void>;
+  findAll: () => Promise<void>;
   state: TasksManagementReducer;
 };
 

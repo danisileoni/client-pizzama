@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import { type TasksManagementReducer } from '../types';
 import { TasksContext } from '../hooks/useTasks';
 import Cookies from 'js-cookie';
-import { getOneTask, getTaskForUser } from '../services/tasksApi';
+import { getAllTask, getOneTask, getTaskForUser } from '../services/tasksApi';
 
 interface props {
   children: JSX.Element | JSX.Element[];
@@ -47,6 +47,13 @@ const tasksDataManagementReducer: React.Reducer<
         findOne: action.payload,
         error: undefined,
       };
+    case 'FETCH_ALL_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        findAll: action.payload,
+        error: undefined,
+      };
     case 'FETCH_ERROR':
       return {
         ...state,
@@ -89,8 +96,19 @@ export const TasksProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const findAll = async (): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
+    try {
+      const cookies = Cookies.get();
+      const res = await getAllTask(cookies.token);
+      dispatch({ type: ActionData.FETCH_ALL_SUCCESS, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   return (
-    <TasksContext.Provider value={{ getForUser, getOne, state }}>
+    <TasksContext.Provider value={{ getForUser, getOne, findAll, state }}>
       {children}
     </TasksContext.Provider>
   );

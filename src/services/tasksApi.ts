@@ -22,6 +22,23 @@ export const getOneTask = async (
   return data;
 };
 
+export const getAllTask = async (token: string): Promise<TasksAPI> => {
+  const response = await fetch(`${API}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: 'include',
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) throw data;
+
+  return data;
+};
+
 export const getTaskForUser = async (token: string): Promise<TasksAPI> => {
   const response = await fetch(`${API}/for-user`, {
     method: 'GET',
