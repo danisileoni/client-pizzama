@@ -3,7 +3,8 @@ import {
   type ErrorMessage,
   type DataRegister,
   type DataLogin,
-  type AuthManagmentReducer,
+  type AuthManagementReducer,
+  type UserUpdate,
 } from '../types.d';
 import {
   authLogin,
@@ -14,6 +15,7 @@ import {
   getAll,
   getOne,
   getUserActive,
+  patchUpdateUser,
 } from '../services/authApi';
 import { AuthContext } from '../hooks/useAuth';
 import Cookies from 'js-cookie';
@@ -31,7 +33,8 @@ const enum ActionData {
   FETCH_FIND_ALL = 'FETCH_FIND_ALL',
   FETCH_FIND_ONE = 'FETCH_FIND_ONE',
   FETCH_ACTIVE_USER = 'FETCH_ACTIVE_USER',
-  FEATCH_LOGOUT = 'FEATCH_LOGOUT',
+  FETCH_UPDATE = 'FETCH_UPDATE',
+  FETCH_LOGOUT = 'FETCH_LOGOUT',
   FETCH_ERROR = 'FETCH_ERROR',
 }
 
@@ -44,10 +47,11 @@ const initialState = {
   findAll: undefined,
   findOne: undefined,
   activeData: undefined,
+  update: undefined,
   error: undefined,
 };
 
-const authManagmentReducer: React.Reducer<AuthManagmentReducer, Action> = (
+const authManagementReducer: React.Reducer<AuthManagementReducer, Action> = (
   state,
   action,
 ) => {
@@ -109,11 +113,17 @@ const authManagmentReducer: React.Reducer<AuthManagmentReducer, Action> = (
         activeData: action.payload,
         error: undefined,
       };
-    case 'FEATCH_LOGOUT':
+    case 'FETCH_LOGOUT':
       return {
         ...state,
         login: false,
         authenticated: false,
+      };
+    case 'FETCH_UPDATE':
+      return {
+        ...state,
+        update: action.payload,
+        error: undefined,
       };
     case 'FETCH_ERROR':
       return {
@@ -127,7 +137,7 @@ const authManagmentReducer: React.Reducer<AuthManagmentReducer, Action> = (
 };
 
 export const AuthProvider = ({ children }: props): JSX.Element => {
-  const [state, dispatch] = useReducer(authManagmentReducer, initialState);
+  const [state, dispatch] = useReducer(authManagementReducer, initialState);
   const [errorMessage, setErrorMessage] = useState<ErrorMessage>();
 
   useEffect(() => {
@@ -247,11 +257,21 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const updateUser = async (id: string, data: UserUpdate): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      const res = await patchUpdateUser(cookies.token, id, data);
+      dispatch({ type: ActionData.FETCH_UPDATE, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   const logout = async (): Promise<void> => {
     try {
       const cookies = Cookies.get();
       await authLogout(cookies.token);
-      dispatch({ type: ActionData.FEATCH_LOGOUT });
+      dispatch({ type: ActionData.FETCH_LOGOUT });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });
     }
@@ -265,6 +285,7 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         getAllUsers,
         getOneUser,
         getActive,
+        updateUser,
         logout,
         state,
         errorMessage,

@@ -7,7 +7,7 @@ import {
   getProjectForUser,
 } from '../services/projectsApi';
 import Cookies from 'js-cookie';
-import { type ProjectApi, type ProjectManagmentReducer } from '../types';
+import { type ProjectApi, type ProjectManagementReducer } from '../types';
 
 interface props {
   children: JSX.Element | JSX.Element[];
@@ -31,13 +31,13 @@ const initialState = {
   error: undefined,
 };
 
-const projectDataManagmentReducer: React.Reducer<
-  ProjectManagmentReducer,
+const projectDataManagementReducer: React.Reducer<
+  ProjectManagementReducer,
   Action
 > = (
-  state: ProjectManagmentReducer,
+  state: ProjectManagementReducer,
   action: Action,
-): ProjectManagmentReducer => {
+): ProjectManagementReducer => {
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
@@ -77,7 +77,7 @@ const projectDataManagmentReducer: React.Reducer<
 
 export const ProjectsProvider = ({ children }: props): JSX.Element => {
   const [state, dispatch] = useReducer(
-    projectDataManagmentReducer,
+    projectDataManagementReducer,
     initialState,
   );
   const [offset, setOffset] = useState(0);

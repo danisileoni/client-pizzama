@@ -3,7 +3,8 @@ import {
   type DataLogin,
   type DataRegister,
   type ErrorMessage,
-  type AuthManagmentReducer,
+  type AuthManagementReducer,
+  type UserUpdate,
 } from '../types';
 
 type AuthContextProps = {
@@ -12,8 +13,9 @@ type AuthContextProps = {
   getAllUsers: () => Promise<void>;
   getOneUser: (id: string) => Promise<void>;
   getActive: () => Promise<void>;
+  updateUser: (id: string, data: UserUpdate) => Promise<void>;
   logout: () => Promise<void>;
-  state: AuthManagmentReducer;
+  state: AuthManagementReducer;
   errorMessage: ErrorMessage | undefined;
 };
 

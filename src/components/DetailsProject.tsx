@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useProject } from '../hooks/useProjects';
 import { Navbar } from './Navbar';
 import { useAuth } from '../hooks/useAuth';
-import { type ProjectManagmentReducer } from '../types';
+import { type ProjectManagementReducer } from '../types';
 import { useReport } from '../hooks/useReport';
 
 export const DetailsProject = (): JSX.Element => {
@@ -11,7 +11,7 @@ export const DetailsProject = (): JSX.Element => {
   const { findOne, state: stateProject } = useProject();
   const { getAllUsers, getActive, state: stateUser } = useAuth();
   const { findAll: findAllReports, state: stateReports } = useReport();
-  const stateProjectRef = useRef<ProjectManagmentReducer>();
+  const stateProjectRef = useRef<ProjectManagementReducer>();
   const { findAll: users, activeData: activeUser } = stateUser;
 
   useEffect(() => {

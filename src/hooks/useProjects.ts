@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { type ProjectApi, type ProjectManagmentReducer } from '../types';
+import { type ProjectApi, type ProjectManagementReducer } from '../types';
 
 type ProjectsContextProps = {
   findAll: () => Promise<void>;
@@ -7,7 +7,7 @@ type ProjectsContextProps = {
   viewMoreProject: () => Promise<void>;
   handleBtnForOffset: () => void;
   findForUser: () => Promise<void>;
-  state: ProjectManagmentReducer;
+  state: ProjectManagementReducer;
   data: ProjectApi[];
   offset: number;
   hasMore: boolean;

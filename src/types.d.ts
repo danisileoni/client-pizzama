@@ -10,17 +10,17 @@ export interface DataLogin {
 }
 
 // Reducers
-export interface AuthManagmentReducer {
+export interface AuthManagementReducer {
   loading?: boolean;
   authenticated?: boolean;
   userData?: StateTypeUser;
   findAll?: AuthRegister[];
   findOne?: AuthRegister;
-  activeData?: AtuhActive;
+  activeData?: AuthActive;
   error?: undefined | ErrorApi;
 }
 
-export interface ProjectManagmentReducer {
+export interface ProjectManagementReducer {
   loading?: boolean;
   findAll?: ProjectApi[];
   findOne?: ProjectApi;
@@ -28,7 +28,7 @@ export interface ProjectManagmentReducer {
   error?: string | undefined;
 }
 
-export interface ReportManagmentReducer {
+export interface ReportManagementReducer {
   loading?: boolean;
   findAll?: ReportsApi[];
   findLatest?: ReportsApi[];
@@ -36,7 +36,7 @@ export interface ReportManagmentReducer {
   error?: string | undefined;
 }
 
-export interface TasksManagmentReducer {
+export interface TasksManagementReducer {
   loading?: boolean;
   findAll?: TasksAPI[];
   findOne?: TasksAPI;
@@ -73,7 +73,7 @@ export interface ErrorMessage {
   message?: string;
 }
 
-// Fetchs return Data
+// Fetches return Data
 export interface AuthAPIRegister extends StateUserType {
   userObject: AuthRegister;
 }
@@ -100,7 +100,7 @@ export interface AuthAPILogin extends StateUserType {
   email: string;
 }
 
-export interface AtuhActive {
+export interface AuthActive {
   user?: string;
   id?: string;
   fullName?: string;
@@ -113,6 +113,13 @@ export interface VerificationToken {
   id?: string;
   user?: string;
   email?: string;
+}
+
+export interface UserUpdate {
+  user?: string;
+  email?: string;
+  currentPassword?: string;
+  password?: string;
 }
 
 export interface ProjectApi {

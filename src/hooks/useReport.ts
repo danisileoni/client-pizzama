@@ -1,12 +1,12 @@
 import { createContext, useContext } from 'react';
-import { type ReportManagmentReducer } from '../types';
+import { type ReportManagementReducer } from '../types';
 
 type ReportContextProps = {
   findAll: () => Promise<void>;
   findLatest: () => Promise<void>;
   findOne: (id: string) => Promise<void>;
   createReport: (dataReport: object, projectId: string) => Promise<void>;
-  state: ReportManagmentReducer;
+  state: ReportManagementReducer;
 };
 
 export const ReportContext = createContext<ReportContextProps>(

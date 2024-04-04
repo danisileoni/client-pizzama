@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react';
-import { type TasksManagmentReducer } from '../types';
+import { type TasksManagementReducer } from '../types';
 
 type TasksContextProps = {
   getForUser: () => Promise<void>;
   getOne: (id: string) => Promise<void>;
-  state: TasksManagmentReducer;
+  state: TasksManagementReducer;
 };
 
 export const TasksContext = createContext<TasksContextProps>(

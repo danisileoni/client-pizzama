@@ -17,7 +17,7 @@ export const DetailsReport = (): JSX.Element => {
   const { findOne: projectData } = stateProject;
 
   useEffect(() => {
-    async function callFetchsData(): Promise<void> {
+    async function callFetchData(): Promise<void> {
       if (reportId) {
         await findOneReport(reportId);
         await findLatest();
@@ -27,7 +27,7 @@ export const DetailsReport = (): JSX.Element => {
         await findOneProject(projectId);
       }
     }
-    void callFetchsData();
+    void callFetchData();
   }, [reportId]);
 
   return (

@@ -7,7 +7,7 @@ import { LoginPage } from './pages/LoginPage';
 import { PlatformPage } from './pages/PlatformPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ProjectsProvider } from './context/ProjectsContext';
-import { RerportProvider } from './context/ReportContext';
+import { ReportProvider } from './context/ReportContext';
 import { DetailsProject } from './components/DetailsProject';
 import { DetailsReport } from './components/DetailsReport';
 import { TasksPage } from './pages/TasksPage';
@@ -23,7 +23,7 @@ function App(): JSX.Element {
     <AuthProvider>
       <ProjectsProvider>
         <TasksProvider>
-          <RerportProvider>
+          <ReportProvider>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -55,16 +55,14 @@ function App(): JSX.Element {
                     path="/platform/config-user/:userId"
                     element={<ConfigUser />}
                   />
-                  <Route element={<ProtectedRoute roles={'admin'} />}>
-                    <Route
-                      path="/platform/dashboard"
-                      element={<DashboardPage />}
-                    />
-                  </Route>
+                  <Route
+                    path="/platform/dashboard"
+                    element={<DashboardPage />}
+                  />
                 </Route>
               </Routes>
             </BrowserRouter>
-          </RerportProvider>
+          </ReportProvider>
         </TasksProvider>
       </ProjectsProvider>
     </AuthProvider>

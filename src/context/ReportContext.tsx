@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { type ReportManagmentReducer } from '../types';
+import { type ReportManagementReducer } from '../types';
 import { ReportContext } from '../hooks/useReport';
 import {
   getAllReports,
@@ -31,10 +31,10 @@ const initialState = {
   error: undefined,
 };
 
-const reportDataManagmentReducer = (
-  state: ReportManagmentReducer,
+const reportDataManagementReducer = (
+  state: ReportManagementReducer,
   action: Action,
-): ReportManagmentReducer => {
+): ReportManagementReducer => {
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
@@ -73,9 +73,9 @@ const reportDataManagmentReducer = (
   }
 };
 
-export const RerportProvider = ({ children }: props): JSX.Element => {
+export const ReportProvider = ({ children }: props): JSX.Element => {
   const [state, dispatch] = useReducer(
-    reportDataManagmentReducer,
+    reportDataManagementReducer,
     initialState,
   );
 

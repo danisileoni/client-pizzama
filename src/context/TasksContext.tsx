@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { type TasksManagmentReducer } from '../types';
+import { type TasksManagementReducer } from '../types';
 import { TasksContext } from '../hooks/useTasks';
 import Cookies from 'js-cookie';
 import { getOneTask, getTaskForUser } from '../services/tasksApi';
@@ -26,10 +26,10 @@ const enum ActionData {
   FETCH_ERROR = 'FETCH_ERROR',
 }
 
-const tasksDataManagmentReducer: React.Reducer<
-  TasksManagmentReducer,
+const tasksDataManagementReducer: React.Reducer<
+  TasksManagementReducer,
   Action
-> = (state: TasksManagmentReducer, action: Action): TasksManagmentReducer => {
+> = (state: TasksManagementReducer, action: Action): TasksManagementReducer => {
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
@@ -62,7 +62,10 @@ const tasksDataManagmentReducer: React.Reducer<
 };
 
 export const TasksProvider = ({ children }: props): JSX.Element => {
-  const [state, dispatch] = useReducer(tasksDataManagmentReducer, initialState);
+  const [state, dispatch] = useReducer(
+    tasksDataManagementReducer,
+    initialState,
+  );
 
   const getOne = async (id: string): Promise<void> => {
     dispatch({ type: ActionData.FETCH_START });

@@ -4,6 +4,7 @@ import { type DataRegister, type Errors } from '../types';
 interface FormHook {
   data: DataRegister;
   errors: Errors;
+  validInput: (name: string, value: string) => string | undefined;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validObjectData: () => void;
 }
@@ -104,5 +105,5 @@ export const useFormRegister = (): FormHook => {
     }
   };
 
-  return { errors, data, handleChange, validObjectData };
+  return { errors, data, handleChange, validObjectData, validInput };
 };
