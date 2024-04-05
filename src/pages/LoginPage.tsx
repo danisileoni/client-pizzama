@@ -4,7 +4,7 @@ import { InputForm } from '../components/InputForm';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-export const LoginPage = (): JSX.Element => {
+const LoginPage = (): JSX.Element => {
   const [data, setData] = useState<DataLogin>({
     user: '',
     password: '',
@@ -96,3 +96,5 @@ export const LoginPage = (): JSX.Element => {
     </>
   );
 };
+
+export default LoginPage;

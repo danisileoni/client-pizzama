@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 import { type ProjectManagementReducer } from '../types';
 import { useReport } from '../hooks/useReport';
 
-export const DetailsProject = (): JSX.Element => {
+const DetailsProject = (): JSX.Element => {
   const { projectId } = useParams();
   const { findOne, state: stateProject } = useProject();
   const { getAllUsers, getActive, state: stateUser } = useAuth();
@@ -116,3 +116,5 @@ export const DetailsProject = (): JSX.Element => {
     </>
   );
 };
+
+export default DetailsProject;

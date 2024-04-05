@@ -4,18 +4,18 @@ import { useTasks } from '../hooks/useTasks';
 import { Link } from 'react-router-dom';
 import { useProject } from '../hooks/useProjects';
 
-export const TasksPage = (): JSX.Element => {
+const TasksPage = (): JSX.Element => {
   const { getForUser, state: stateTasks } = useTasks();
   const { findAll: findAllProjects, state: stateProjects } = useProject();
   const { findForUser: tasksUser } = stateTasks;
   const { findAll: allProjects } = stateProjects;
 
   useEffect(() => {
-    async function fetchs(): Promise<void> {
+    async function fetch(): Promise<void> {
       await getForUser();
       await findAllProjects();
     }
-    void fetchs();
+    void fetch();
   }, []);
 
   return (
@@ -28,7 +28,7 @@ export const TasksPage = (): JSX.Element => {
             let data;
             if (allProjects) {
               data = allProjects.find((project) =>
-                project.assignedTasks.includes(task._id),
+                project.assignedTasks?.includes(task._id),
               );
             }
 
@@ -58,3 +58,5 @@ export const TasksPage = (): JSX.Element => {
     </>
   );
 };
+
+export default TasksPage;

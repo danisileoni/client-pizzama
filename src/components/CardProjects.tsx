@@ -16,12 +16,12 @@ export const CardProjects = (): JSX.Element => {
 
   return (
     <div className="container">
-      {data?.map((data: ProjectApi) => {
+      {data?.map((data: ProjectApi, i) => {
         return (
           <Link
             to={`/platform/project/${data._id}`}
             className="flex container w-full flex-col p-4 mt-5 bg-zinc-700 hover:bg-zinc-600 hover:transition-all shadow-lg hover:-translate-y-1 rounded-2xl"
-            key={data._id}
+            key={i}
           >
             <h1 className="text-xl text-link">{data.name}</h1>
             <p className="mt-2 whitespace-nowrap overflow-hidden text-ellipsis max-w-64 md:max-w-4xl">

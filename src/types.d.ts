@@ -17,6 +17,7 @@ export interface AuthManagementReducer {
   findAll?: AuthRegister[];
   findOne?: AuthRegister;
   activeData?: AuthActive;
+  update?: AuthRegister;
   error?: undefined | ErrorApi;
 }
 
@@ -63,6 +64,7 @@ export interface Errors {
   password?: string | undefined;
   password2?: string | undefined;
   passwordConfirm?: string | undefined;
+  passwordConfirmValue?: string | undefined;
 }
 export interface ErrorApi {
   message: string;

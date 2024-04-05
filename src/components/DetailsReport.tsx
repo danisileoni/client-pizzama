@@ -5,7 +5,7 @@ import { useReport } from '../hooks/useReport';
 import { useProject } from '../hooks/useProjects';
 import { CardReports } from './CardReports';
 
-export const DetailsReport = (): JSX.Element => {
+const DetailsReport = (): JSX.Element => {
   const { reportId } = useParams();
   const {
     findOne: findOneReport,
@@ -69,3 +69,5 @@ export const DetailsReport = (): JSX.Element => {
     </>
   );
 };
+
+export default DetailsReport;

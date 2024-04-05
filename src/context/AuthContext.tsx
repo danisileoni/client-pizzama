@@ -128,6 +128,7 @@ const authManagementReducer: React.Reducer<AuthManagementReducer, Action> = (
     case 'FETCH_ERROR':
       return {
         ...state,
+        update: undefined,
         loading: false,
         error: action.payload,
       };

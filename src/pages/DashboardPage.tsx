@@ -17,13 +17,21 @@ interface DataSelected {
 
 type Action = { type: string; payload?: any };
 
-const initialReducer = {
+const notStorageReducer = {
   dashboard: true,
   createProject: false,
   createTask: false,
   viewReports: false,
   viewUsers: false,
   DeleteUser: false,
+};
+const storageReducer = localStorage.getItem('page');
+
+const initialReducer = (): DataSelected => {
+  if (storageReducer) {
+    return JSON.parse(storageReducer);
+  }
+  return notStorageReducer;
 };
 
 const enum ActionSelected {
@@ -99,8 +107,11 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
   }
 };
 
-export const DashboardPage = (): JSX.Element => {
-  const [state, dispatch] = useReducer(selectedSectionReducer, initialReducer);
+const DashboardPage = (): JSX.Element => {
+  const [state, dispatch] = useReducer(
+    selectedSectionReducer,
+    initialReducer(),
+  );
   const { state: stateAuth, getActive } = useAuth();
   const { state: stateProjects, findAll: findAllProjects } = useProject();
   const { state: stateTasks, findAll: findAllTasks } = useTasks();
@@ -113,6 +124,7 @@ export const DashboardPage = (): JSX.Element => {
       await findAllTasks();
     })();
   }, []);
+  localStorage.setItem('page', JSON.stringify(state));
 
   useEffect(() => {
     if (stateAuth.activeData) {
@@ -134,13 +146,13 @@ export const DashboardPage = (): JSX.Element => {
           </Link>
         </div>
         <ul className="row-span-7 text-lg bg-indigo-700 shadow-2xl">
-          <h4 className="text-xl pl-1">Menu:</h4>
+          <h4 className="text-2xl pl-4">Menu</h4>
           <li>
             <button
               onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_DASHBOARD });
               }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
             >
               {'❯'} Dashboard
             </button>
@@ -150,7 +162,7 @@ export const DashboardPage = (): JSX.Element => {
               onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_CRE_PROJECT });
               }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
             >
               {'❯'} Create Projects
             </button>
@@ -160,7 +172,7 @@ export const DashboardPage = (): JSX.Element => {
               onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_CRE_TASKS });
               }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
             >
               {'❯'} Create Tasks
             </button>
@@ -170,7 +182,7 @@ export const DashboardPage = (): JSX.Element => {
               onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_VIEW_REPORTS });
               }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
             >
               {'❯'} View Reports
             </button>
@@ -180,7 +192,7 @@ export const DashboardPage = (): JSX.Element => {
               onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_VIEW_USERS });
               }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
             >
               {'❯'} View Users
             </button>
@@ -190,7 +202,7 @@ export const DashboardPage = (): JSX.Element => {
               onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_DELETE_USER });
               }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
             >
               {'❯'} Delete User
             </button>
@@ -203,7 +215,10 @@ export const DashboardPage = (): JSX.Element => {
           />
         ) : null}
         {state.createProject ? <CreateProject /> : null}
+        {state.createTask ? <a>hello</a> : null}
       </div>
     </>
   );
 };
+
+export default DashboardPage;

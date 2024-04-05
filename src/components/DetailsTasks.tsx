@@ -3,7 +3,7 @@ import { Navbar } from './Navbar';
 import { useTasks } from '../hooks/useTasks';
 import { useEffect } from 'react';
 import { useProject } from '../hooks/useProjects';
-export const DetailsTasks = (): JSX.Element => {
+const DetailsTasks = (): JSX.Element => {
   const { taskId } = useParams();
   const { getOne: getOneTask, state: stateTask } = useTasks();
   const { findOne: getOneProject, state: stateProject } = useProject();
@@ -52,3 +52,5 @@ export const DetailsTasks = (): JSX.Element => {
     </>
   );
 };
+
+export default DetailsTasks;

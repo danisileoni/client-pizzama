@@ -3,7 +3,7 @@ import { Navbar } from '../components/Navbar';
 import { useProject } from '../hooks/useProjects';
 import { Link } from 'react-router-dom';
 
-export const ProjectsPage = (): JSX.Element => {
+const ProjectsPage = (): JSX.Element => {
   const { findForUser, state } = useProject();
   const { findForUser: userProjects } = state;
 
@@ -38,3 +38,5 @@ export const ProjectsPage = (): JSX.Element => {
     </>
   );
 };
+
+export default ProjectsPage;

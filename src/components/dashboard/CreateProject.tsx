@@ -83,6 +83,9 @@ export const CreateProject = (): JSX.Element => {
 
   return (
     <>
+      <h1 className="flex row-start-1 col-start-5 font-semibold justify-center mb-8 items-center col-span-2 text-4xl">
+        Create project
+      </h1>
       <h1 className="row-start-1 col-start-2 col-span-2 text-xl font-semibold ml-8 mb-3 flex items-end">
         Info
       </h1>
@@ -154,7 +157,7 @@ export const CreateProject = (): JSX.Element => {
         ))}
       </div>
       <h1 className="row-start-1 col-start-8 flex items-end mb-2 text-xl font-semibold justify-center translate-x-5">
-        Set Date1
+        Set Date
       </h1>
       <div className="row-start-2 col-start-8 flex flex-col w-full items-center col-span-2 row-span-7">
         <h1 className="text-xl">Start Project</h1>

@@ -4,7 +4,7 @@ import { useFormRegister } from '../hooks/useFormRegister.ts';
 import { useAuth } from '../hooks/useAuth.ts';
 import { useEffect } from 'react';
 
-export const RegisterPage = (): JSX.Element => {
+const RegisterPage = (): JSX.Element => {
   const { data, errors, handleChange, validObjectData } = useFormRegister();
   const { register, errorMessage, state } = useAuth();
   const navigate = useNavigate();
@@ -141,3 +141,5 @@ export const RegisterPage = (): JSX.Element => {
     </>
   );
 };
+
+export default RegisterPage;

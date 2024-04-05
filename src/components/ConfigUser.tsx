@@ -3,8 +3,9 @@ import { useAuth } from '../hooks/useAuth';
 import { useEffect, useRef, useState } from 'react';
 import { type Errors, type UserUpdate } from '../types';
 import { useFormRegister } from '../hooks/useFormRegister';
+import Swal from 'sweetalert2';
 
-export const ConfigUser = (): JSX.Element => {
+const ConfigUser = (): JSX.Element => {
   const { userId } = useParams();
   const { updateUser, getOneUser, getActive, state, errorMessage } = useAuth();
   const { validInput } = useFormRegister();
@@ -12,17 +13,30 @@ export const ConfigUser = (): JSX.Element => {
     user: undefined,
     email: undefined,
     password: undefined,
-    passwordConfirm: undefined,
+    passwordConfirmValue: undefined,
   });
   const [data, setData] = useState<UserUpdate>({
     user: undefined,
     email: undefined,
-    currentPassword: '',
-    password: '',
+    currentPassword: undefined,
+    password: undefined,
   });
   const [disabled, setDisabled] = useState<boolean>(true);
-  const passwordConfirmRef = useRef('');
+  const passwordConfirmRef = useRef<string>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    void (async () => {
+      if (state.update !== undefined)
+        await Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Update success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+    })();
+  }, [state.update]);
 
   useEffect(() => {
     void (async () => {
@@ -31,7 +45,7 @@ export const ConfigUser = (): JSX.Element => {
         await getActive();
       }
     })();
-  }, [userId]);
+  }, [userId, state.update]);
 
   useEffect(() => {
     if (state.activeData) {
@@ -47,7 +61,7 @@ export const ConfigUser = (): JSX.Element => {
         user: undefined,
         email: undefined,
         password: undefined,
-        passwordConfirm: undefined,
+        passwordConfirmValue: undefined,
       });
     }, 3000);
 
@@ -61,7 +75,7 @@ export const ConfigUser = (): JSX.Element => {
     const { name, value } = e.target;
     setDisabled(false);
 
-    if (name === 'passwordConfirm') {
+    if (name === 'passwordConfirmValue') {
       passwordConfirmRef.current = value;
     }
 
@@ -75,7 +89,7 @@ export const ConfigUser = (): JSX.Element => {
       setErrors({ ...errors, [name]: validInput(name, value) });
     }
 
-    if (name !== 'passwordConfirm') {
+    if (name !== 'passwordConfirmValue') {
       setData({
         ...data,
         [name]: value,
@@ -83,11 +97,15 @@ export const ConfigUser = (): JSX.Element => {
     }
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    e: React.ChangeEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
-    passwordConfirmRef.current = '';
 
-    if (passwordConfirmRef.current !== data.password) {
+    if (
+      passwordConfirmRef.current !== data.password &&
+      passwordConfirmRef.current !== undefined
+    ) {
       setErrors({
         ...errors,
         passwordConfirm: validInput(
@@ -95,12 +113,13 @@ export const ConfigUser = (): JSX.Element => {
           passwordConfirmRef.current,
         ),
       });
+      passwordConfirmRef.current = undefined;
       throw new Error('Passwords are not the same');
     }
 
     if (userId) {
       setDisabled(true);
-      void updateUser(userId, data);
+      await updateUser(userId, data);
     }
   };
 
@@ -180,7 +199,7 @@ export const ConfigUser = (): JSX.Element => {
                 className="rounded-md md:w-8/12 bg-zinc-700 p-1 pl-2"
                 type="password"
                 onChange={handleChange}
-                name="passwordConfirm"
+                name="passwordConfirmValue"
                 placeholder="confirm Password"
               />
               <p className="text-xs text-rose-500">
@@ -203,3 +222,5 @@ export const ConfigUser = (): JSX.Element => {
     </>
   );
 };
+
+export default ConfigUser;

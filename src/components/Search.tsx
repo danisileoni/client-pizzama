@@ -27,7 +27,7 @@ export const Search = ({ placeholder }: Props): JSX.Element => {
     try {
       const searchData = stateRef.current
         ?.filter((object: ProjectApi) =>
-          object.name.toLowerCase().includes(value),
+          object.name?.toLowerCase().includes(value),
         )
         .slice(0, 5);
 
@@ -75,7 +75,7 @@ export const Search = ({ placeholder }: Props): JSX.Element => {
               onClick={restartSearch}
             >
               <h1>{data.name}</h1>
-              <p>Reports: {data.assignedReports.length}</p>
+              <p>Reports: {data.assignedReports?.length}</p>
             </Link>
           ))}
         </div>
