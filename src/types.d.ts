@@ -22,6 +22,7 @@ export interface AuthManagementReducer {
 
 export interface ProjectManagementReducer {
   loading?: boolean;
+  newProject?: ProjectApi;
   findAll?: ProjectApi[];
   findOne?: ProjectApi;
   findForUser?: ProjectApi[];
@@ -123,17 +124,17 @@ export interface UserUpdate {
 }
 
 export interface ProjectApi {
-  _id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  isActive: boolean;
-  assignedUsers: any[];
-  assignedTasks: any[];
-  assignedReports: any[];
-  slug: string;
-  __v: number;
+  _id?: string;
+  name?: string;
+  startDate?: string | Date;
+  endDate?: string | Date;
+  description?: string;
+  isActive?: boolean;
+  assignedUsers?: any[];
+  assignedTasks?: any[];
+  assignedReports?: any[];
+  slug?: string;
+  __v?: number;
 }
 
 export interface ReportsApi {

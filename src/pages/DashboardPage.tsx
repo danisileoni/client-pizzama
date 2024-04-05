@@ -1,11 +1,106 @@
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import { useProject } from '../hooks/useProjects';
 import { useTasks } from '../hooks/useTasks';
 import { Dashboard } from '../components/dashboard/Dashboard';
+import { CreateProject } from '../components/dashboard/CreateProject';
+
+interface DataSelected {
+  dashboard: boolean;
+  createProject: boolean;
+  createTask: boolean;
+  viewReports: boolean;
+  viewUsers: boolean;
+  DeleteUser: boolean;
+}
+
+type Action = { type: string; payload?: any };
+
+const initialReducer = {
+  dashboard: true,
+  createProject: false,
+  createTask: false,
+  viewReports: false,
+  viewUsers: false,
+  DeleteUser: false,
+};
+
+const enum ActionSelected {
+  SELECTED_DASHBOARD = 'SELECTED_DASHBOARD',
+  SELECTED_CRE_PROJECT = 'SELECTED_CRE_PROJECT',
+  SELECTED_CRE_TASKS = 'SELECTED_CRE_TASKS',
+  SELECTED_VIEW_REPORTS = 'SELECTED_VIEW_REPORTS',
+  SELECTED_VIEW_USERS = 'SELECTED_VIEW_USERS',
+  SELECTED_DELETE_USER = 'SELECTED_DELETE_USER',
+}
+
+const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
+  state,
+  action,
+) => {
+  switch (action.type) {
+    case 'SELECTED_DASHBOARD':
+      return {
+        dashboard: true,
+        createProject: false,
+        createTask: false,
+        viewReports: false,
+        viewUsers: false,
+        DeleteUser: false,
+      };
+    case 'SELECTED_CRE_PROJECT':
+      return {
+        dashboard: false,
+        createProject: true,
+        createTask: false,
+        viewReports: false,
+        viewUsers: false,
+        DeleteUser: false,
+      };
+    case 'SELECTED_CRE_TASKS':
+      return {
+        dashboard: false,
+        createProject: false,
+        createTask: true,
+        viewReports: false,
+        viewUsers: false,
+        DeleteUser: false,
+      };
+    case 'SELECTED_VIEW_REPORTS':
+      return {
+        dashboard: false,
+        createProject: false,
+        createTask: false,
+        viewReports: true,
+        viewUsers: false,
+        DeleteUser: false,
+      };
+    case 'SELECTED_VIEW_USERS':
+      return {
+        dashboard: false,
+        createProject: false,
+        createTask: false,
+        viewReports: false,
+        viewUsers: true,
+        DeleteUser: false,
+      };
+    case 'SELECTED_DELETE_USER':
+      return {
+        dashboard: false,
+        createProject: false,
+        createTask: false,
+        viewReports: false,
+        viewUsers: false,
+        DeleteUser: true,
+      };
+    default:
+      return state;
+  }
+};
 
 export const DashboardPage = (): JSX.Element => {
+  const [state, dispatch] = useReducer(selectedSectionReducer, initialReducer);
   const { state: stateAuth, getActive } = useAuth();
   const { state: stateProjects, findAll: findAllProjects } = useProject();
   const { state: stateTasks, findAll: findAllTasks } = useTasks();
@@ -29,52 +124,85 @@ export const DashboardPage = (): JSX.Element => {
 
   return (
     <>
-      <div className="grid grid-flow-col md:grid-cols- md:grid-rows-6 h-screen">
-        <div className="flex flex-col bg-indigo-700 justify-center">
+      <div className="grid grid-flow-col md:grid-cols-9 md:grid-rows-8 h-screen">
+        <div className="flex flex-col bg-indigo-700 justify-center shadow-2xl">
           <Link
             to={'/platform'}
-            className=" text-4xl row-span-1 font-semibold flex justify-center items-center"
+            className=" text-2xl row-span-1 font-semibold flex justify-center items-center"
           >
             Pizzama
           </Link>
         </div>
-        <ul className="row-span-5 text-lg bg-indigo-700">
+        <ul className="row-span-7 text-lg bg-indigo-700 shadow-2xl">
           <h4 className="text-xl pl-1">Menu:</h4>
           <li>
-            <button className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left">
+            <button
+              onClick={() => {
+                dispatch({ type: ActionSelected.SELECTED_DASHBOARD });
+              }}
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+            >
               {'❯'} Dashboard
             </button>
           </li>
           <li>
-            <button className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left">
+            <button
+              onClick={() => {
+                dispatch({ type: ActionSelected.SELECTED_CRE_PROJECT });
+              }}
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+            >
               {'❯'} Create Projects
             </button>
           </li>
           <li>
-            <button className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left">
+            <button
+              onClick={() => {
+                dispatch({ type: ActionSelected.SELECTED_CRE_TASKS });
+              }}
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+            >
               {'❯'} Create Tasks
             </button>
           </li>
           <li>
-            <button className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left">
+            <button
+              onClick={() => {
+                dispatch({ type: ActionSelected.SELECTED_VIEW_REPORTS });
+              }}
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+            >
               {'❯'} View Reports
             </button>
           </li>
           <li>
-            <button className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left">
+            <button
+              onClick={() => {
+                dispatch({ type: ActionSelected.SELECTED_VIEW_USERS });
+              }}
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+            >
               {'❯'} View Users
             </button>
           </li>
           <li>
-            <button className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left">
+            <button
+              onClick={() => {
+                dispatch({ type: ActionSelected.SELECTED_DELETE_USER });
+              }}
+              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-left"
+            >
               {'❯'} Delete User
             </button>
           </li>
         </ul>
-        <Dashboard
-          tasks={stateTasks.findAll as []}
-          projects={stateProjects.findAll as []}
-        />
+        {state.dashboard ? (
+          <Dashboard
+            tasks={stateTasks.findAll as []}
+            projects={stateProjects.findAll as []}
+          />
+        ) : null}
+        {state.createProject ? <CreateProject /> : null}
       </div>
     </>
   );

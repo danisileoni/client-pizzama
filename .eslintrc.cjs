@@ -32,5 +32,6 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     'no-useless-escape': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
   },
 };

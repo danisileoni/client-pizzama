@@ -36,9 +36,6 @@ export const Graphics = ({ state, title }: Props): JSX.Element => {
     {},
   );
 
-  console.log(state);
-  console.log(groupedByDate);
-
   const data = [
     {
       date: 'Jan',

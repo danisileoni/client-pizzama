@@ -37,7 +37,7 @@ export const DetailsProject = (): JSX.Element => {
             {stateProject.findOne?.name} <p className="text-lg">Project</p>
           </h1>
           <div className="flex items-center">
-            {stateProject.findOne?.assignedUsers.includes(activeUser?.id) ? (
+            {stateProject.findOne?.assignedUsers?.includes(activeUser?.id) ? (
               <Link
                 className="pr-3 pl-3 pt-1 pb-1 rounded-lg bg-blue-500 hover:bg-blue-700 shadow-xl hover:transition-all"
                 to={`/platform/project/create-report/${projectId}`}
@@ -78,7 +78,7 @@ export const DetailsProject = (): JSX.Element => {
           <div>
             <div className="border border-indigo-900 rounded-xl p-2">
               <h1 className="text-lg font-semibold mb-1">Description</h1>
-              <p className="max-w-lg min-w-lg bg-zinc-800 p-3 rounded-md">
+              <p className="max-w-lg min-w-lg bg-zinc-800 p-3 rounded-md hitespace-pre-wrap break-words whitespace-wrap">
                 {stateProject.findOne?.description}
               </p>
             </div>

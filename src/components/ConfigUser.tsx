@@ -154,7 +154,7 @@ export const ConfigUser = (): JSX.Element => {
                 name="currentPassword"
                 value={data.currentPassword}
                 onChange={handleChange}
-                type="text"
+                type="password"
                 placeholder="Password"
               />
               <p className="text-xs text-rose-500">
@@ -168,7 +168,7 @@ export const ConfigUser = (): JSX.Element => {
                 name="password"
                 value={data.password}
                 onChange={handleChange}
-                type="text"
+                type="password"
                 placeholder="New Password"
               />
               <p className="text-xs text-rose-500">
@@ -178,7 +178,7 @@ export const ConfigUser = (): JSX.Element => {
               <span>Confirm password</span>
               <input
                 className="rounded-md md:w-8/12 bg-zinc-700 p-1 pl-2"
-                type="text"
+                type="password"
                 onChange={handleChange}
                 name="passwordConfirm"
                 placeholder="confirm Password"
