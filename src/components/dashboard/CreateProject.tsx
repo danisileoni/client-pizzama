@@ -4,7 +4,6 @@ import { SearchUsers } from '../SearchUsers';
 import { IconTrash } from '../icons/IconTrash';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-import { addHours } from 'date-fns';
 import { useProject } from '../../hooks/useProjects';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2';
@@ -13,7 +12,7 @@ export const CreateProject = (): JSX.Element => {
   const [dataProject, setDataProject] = useState<ProjectApi>({
     name: '',
     startDate: new Date(),
-    endDate: addHours(new Date(), 24),
+    endDate: '',
     description: '',
     assignedUsers: [],
   });
@@ -155,13 +154,13 @@ export const CreateProject = (): JSX.Element => {
         ))}
       </div>
       <h1 className="row-start-1 col-start-8 flex items-end mb-2 text-xl font-semibold justify-center translate-x-5">
-        Set Date
+        Set Date1
       </h1>
       <div className="row-start-2 col-start-8 flex flex-col w-full items-center col-span-2 row-span-7">
         <h1 className="text-xl">Start Project</h1>
         <DatePicker
           className="bg-zinc-800 p-2 rounded-md border"
-          selected={dataProject.startDate}
+          selected={dataProject.startDate as Date}
           onChange={(event) => {
             onDateChanges(event, 'startDate');
           }}
@@ -170,11 +169,11 @@ export const CreateProject = (): JSX.Element => {
         <h1 className="text-xl">End Project</h1>
         <DatePicker
           className="bg-zinc-800 p-2 rounded-md border"
-          selected={dataProject.endDate}
+          selected={dataProject.endDate as Date}
           onChange={(event) => {
             onDateChanges(event, 'endDate');
           }}
-          minDate={dataProject.startDate}
+          minDate={dataProject.startDate as Date}
         />
       </div>
     </>
