@@ -39,10 +39,10 @@ const DetailsTasks = (): JSX.Element => {
           <h5 className="text-sm">Type of task: {findOneTask?.backOrFront}</h5>
           <div className="flex flex-col">
             <span className="text-xs text-end">
-              Start task: {findOneTask?.startDate.split('T')[0]}
+              Start task: {findOneTask?.startDate?.toString().split('T')[0]}
             </span>
             <span className="text-xs text-end">
-              Finish Task: {findOneTask?.endDate.split('T')[0]}
+              Finish Task: {findOneTask?.endDate?.toString().split('T')[0]}
             </span>
           </div>
         </div>

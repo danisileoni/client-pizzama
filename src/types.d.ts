@@ -40,6 +40,7 @@ export interface ReportManagementReducer {
 
 export interface TasksManagementReducer {
   loading?: boolean;
+  create?: TasksAPI;
   findAll?: TasksAPI[];
   findOne?: TasksAPI;
   findForUser?: TasksAPI[];
@@ -126,7 +127,7 @@ export interface UserUpdate {
 }
 
 export interface ProjectApi {
-  _id?: string;
+  _id: string;
   name?: string;
   startDate?: string | Date;
   endDate?: string | Date;
@@ -149,15 +150,15 @@ export interface ReportsApi {
 }
 
 export interface TasksAPI {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  backOrFront: string;
-  projectId: string[];
-  userId: string[];
-  __v: number;
+  _id?: string;
+  title?: string;
+  description?: string;
+  startDate?: string | Date;
+  endDate?: string | Date;
+  backOrFront?: string;
+  projectId?: string[] | string;
+  userId?: string[] | string;
+  __v?: number;
 }
 
 export interface User {

@@ -5,13 +5,13 @@ import { useProject } from '../hooks/useProjects';
 import { useTasks } from '../hooks/useTasks';
 import { Dashboard } from '../components/dashboard/Dashboard';
 import { CreateProject } from '../components/dashboard/CreateProject';
+import { CreateTask } from '../components/dashboard/CreateTasks';
 
 interface DataSelected {
   dashboard: boolean;
   createProject: boolean;
   createTask: boolean;
   viewReports: boolean;
-  viewUsers: boolean;
   DeleteUser: boolean;
 }
 
@@ -39,7 +39,6 @@ const enum ActionSelected {
   SELECTED_CRE_PROJECT = 'SELECTED_CRE_PROJECT',
   SELECTED_CRE_TASKS = 'SELECTED_CRE_TASKS',
   SELECTED_VIEW_REPORTS = 'SELECTED_VIEW_REPORTS',
-  SELECTED_VIEW_USERS = 'SELECTED_VIEW_USERS',
   SELECTED_DELETE_USER = 'SELECTED_DELETE_USER',
 }
 
@@ -54,7 +53,6 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: false,
-        viewUsers: false,
         DeleteUser: false,
       };
     case 'SELECTED_CRE_PROJECT':
@@ -63,7 +61,6 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: true,
         createTask: false,
         viewReports: false,
-        viewUsers: false,
         DeleteUser: false,
       };
     case 'SELECTED_CRE_TASKS':
@@ -72,7 +69,6 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: true,
         viewReports: false,
-        viewUsers: false,
         DeleteUser: false,
       };
     case 'SELECTED_VIEW_REPORTS':
@@ -81,7 +77,6 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: true,
-        viewUsers: false,
         DeleteUser: false,
       };
     case 'SELECTED_VIEW_USERS':
@@ -90,7 +85,6 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: false,
-        viewUsers: true,
         DeleteUser: false,
       };
     case 'SELECTED_DELETE_USER':
@@ -99,7 +93,6 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: false,
-        viewUsers: false,
         DeleteUser: true,
       };
     default:
@@ -190,16 +183,6 @@ const DashboardPage = (): JSX.Element => {
           <li>
             <button
               onClick={() => {
-                dispatch({ type: ActionSelected.SELECTED_VIEW_USERS });
-              }}
-              className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
-            >
-              {'❯'} View Users
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => {
                 dispatch({ type: ActionSelected.SELECTED_DELETE_USER });
               }}
               className="pl-2 hover:bg-indigo-800 hover:translate-x-2 transition-all w-full text-lg p-2 text-left"
@@ -215,7 +198,7 @@ const DashboardPage = (): JSX.Element => {
           />
         ) : null}
         {state.createProject ? <CreateProject /> : null}
-        {state.createTask ? <a>hello</a> : null}
+        {state.createTask ? <CreateTask /> : null}
       </div>
     </>
   );

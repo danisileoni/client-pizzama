@@ -6,9 +6,15 @@ import { Link } from 'react-router-dom';
 
 type Props = {
   placeholder: string;
+  typeSearch?: boolean;
+  sendData?: (data: ProjectApi) => void;
 };
 
-export const Search = ({ placeholder }: Props): JSX.Element => {
+export const Search = ({
+  placeholder,
+  typeSearch,
+  sendData,
+}: Props): JSX.Element => {
   const { findAll, state } = useProject();
   const [searchFound, setSearchFound] = useState<ProjectApi[]>();
   const [value, setValue] = useState<string>('');
@@ -42,6 +48,15 @@ export const Search = ({ placeholder }: Props): JSX.Element => {
     setValue('');
   };
 
+  const handleOnClick = (data: ProjectApi): void => {
+    if (sendData) {
+      sendData(data);
+    }
+
+    setSearchFound([]);
+    setValue('');
+  };
+
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
     const { value } = e.target;
@@ -67,17 +82,30 @@ export const Search = ({ placeholder }: Props): JSX.Element => {
           className={`flex flex-col absolute ${searchFound?.length ? 'bg-1f1f1f' : ''} -translate-y-4 pt-4 w-full`}
           style={{ zIndex: 1 }}
         >
-          {searchFound?.map((data) => (
-            <Link
-              className="p-2 hover:bg-zinc-700 "
-              key={data._id}
-              to={`/platform/project/${data.slug}`}
-              onClick={restartSearch}
-            >
-              <h1>{data.name}</h1>
-              <p>Reports: {data.assignedReports?.length}</p>
-            </Link>
-          ))}
+          {typeSearch
+            ? searchFound?.map((data) => (
+                <Link
+                  className="p-2 hover:bg-zinc-700 "
+                  key={data._id}
+                  to={`/platform/project/${data.slug}`}
+                  onClick={restartSearch}
+                >
+                  <h1>{data.name}</h1>
+                  <p>Reports: {data.assignedReports?.length}</p>
+                </Link>
+              ))
+            : searchFound?.map((data) => (
+                <button
+                  className="p-2 hover:bg-zinc-700 "
+                  key={data._id}
+                  onClick={() => {
+                    handleOnClick(data);
+                  }}
+                >
+                  <h1>{data.name}</h1>
+                  <p>ID: {data._id}</p>
+                </button>
+              ))}
         </div>
       ) : (
         <></>

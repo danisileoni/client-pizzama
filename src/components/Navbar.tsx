@@ -37,7 +37,7 @@ export const Navbar = (): JSX.Element => {
       <Link className="text-4xl font-semibold" to="/platform">
         Pizzama
       </Link>
-      <Search placeholder="Search Project" />
+      <Search placeholder="Search Project" typeSearch />
       <div className="flex justify-between gap-2">
         <Link
           to="/platform"

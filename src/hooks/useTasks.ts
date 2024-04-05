@@ -1,7 +1,8 @@
 import { createContext, useContext } from 'react';
-import { type TasksManagementReducer } from '../types';
+import { type TasksAPI, type TasksManagementReducer } from '../types';
 
 type TasksContextProps = {
+  createTask: (data: TasksAPI) => Promise<void>;
   getForUser: () => Promise<void>;
   getOne: (id: string) => Promise<void>;
   findAll: () => Promise<void>;

@@ -1,8 +1,13 @@
 import { useReducer } from 'react';
-import { type TasksManagementReducer } from '../types';
+import { type TasksAPI, type TasksManagementReducer } from '../types';
 import { TasksContext } from '../hooks/useTasks';
 import Cookies from 'js-cookie';
-import { getAllTask, getOneTask, getTaskForUser } from '../services/tasksApi';
+import {
+  getAllTask,
+  getOneTask,
+  getTaskForUser,
+  postCreateTask,
+} from '../services/tasksApi';
 
 interface props {
   children: JSX.Element | JSX.Element[];
@@ -15,11 +20,13 @@ const initialState = {
   findOne: undefined,
   findAll: undefined,
   findForUser: undefined,
+  create: undefined,
   error: undefined,
 };
 
 const enum ActionData {
   FETCH_START = 'FETCH_START',
+  FETCH_CREATE = 'FETCH_CREATE',
   FETCH_ONE_SUCCESS = 'FETCH_ONE_SUCCESS',
   FETCH_ALL_SUCCESS = 'FETCH_ALL_SUCCESS',
   FETCH_FOR_USER_SUCCESS = 'FETCH_FOR_USER_SUCCESS',
@@ -33,6 +40,13 @@ const tasksDataManagementReducer: React.Reducer<
   switch (action.type) {
     case 'FETCH_START':
       return { ...state, loading: true };
+    case 'FETCH_CREATE':
+      return {
+        ...state,
+        loading: false,
+        create: action.payload,
+        error: undefined,
+      };
     case 'FETCH_FOR_USER_SUCCESS':
       return {
         ...state,
@@ -74,6 +88,17 @@ export const TasksProvider = ({ children }: props): JSX.Element => {
     initialState,
   );
 
+  const createTask = async (data: TasksAPI): Promise<void> => {
+    dispatch({ type: ActionData.FETCH_START });
+    try {
+      const cookies = Cookies.get();
+      const res = await postCreateTask(cookies.token, data);
+      dispatch({ type: ActionData.FETCH_CREATE, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   const getOne = async (id: string): Promise<void> => {
     dispatch({ type: ActionData.FETCH_START });
     try {
@@ -108,7 +133,9 @@ export const TasksProvider = ({ children }: props): JSX.Element => {
   };
 
   return (
-    <TasksContext.Provider value={{ getForUser, getOne, findAll, state }}>
+    <TasksContext.Provider
+      value={{ createTask, getForUser, getOne, findAll, state }}
+    >
       {children}
     </TasksContext.Provider>
   );
