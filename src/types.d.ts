@@ -127,7 +127,7 @@ export interface UserUpdate {
 }
 
 export interface ProjectApi {
-  _id: string;
+  _id?: string;
   name?: string;
   startDate?: string | Date;
   endDate?: string | Date;

@@ -6,6 +6,7 @@ import { useTasks } from '../hooks/useTasks';
 import { Dashboard } from '../components/dashboard/Dashboard';
 import { CreateProject } from '../components/dashboard/CreateProject';
 import { CreateTask } from '../components/dashboard/CreateTasks';
+import { ViewReports } from '../components/dashboard/ViewReports';
 
 interface DataSelected {
   dashboard: boolean;
@@ -138,7 +139,7 @@ const DashboardPage = (): JSX.Element => {
             Pizzama
           </Link>
         </div>
-        <ul className="row-span-7 text-lg bg-indigo-700 shadow-2xl">
+        <ul className="row-span-7 flex flex-col text-lg bg-indigo-700 shadow-2xl">
           <h4 className="text-2xl pl-4">Menu</h4>
           <li>
             <button
@@ -199,6 +200,7 @@ const DashboardPage = (): JSX.Element => {
         ) : null}
         {state.createProject ? <CreateProject /> : null}
         {state.createTask ? <CreateTask /> : null}
+        {state.viewReports ? <ViewReports /> : null}
       </div>
     </>
   );
