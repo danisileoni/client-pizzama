@@ -14,6 +14,7 @@ type AuthContextProps = {
   getOneUser: (id: string) => Promise<void>;
   getActive: () => Promise<void>;
   updateUser: (id: string, data: UserUpdate) => Promise<void>;
+  deleteUser: (id: string) => Promise<void>;
   logout: () => Promise<void>;
   state: AuthManagementReducer;
   errorMessage: ErrorMessage | undefined;

@@ -7,13 +7,14 @@ import { Dashboard } from '../components/dashboard/Dashboard';
 import { CreateProject } from '../components/dashboard/CreateProject';
 import { CreateTask } from '../components/dashboard/CreateTasks';
 import { ViewReports } from '../components/dashboard/ViewReports';
+import { DeleteUser } from '../components/dashboard/DeleteUser';
 
 interface DataSelected {
   dashboard: boolean;
   createProject: boolean;
   createTask: boolean;
   viewReports: boolean;
-  DeleteUser: boolean;
+  deleteUser: boolean;
 }
 
 type Action = { type: string; payload?: any };
@@ -24,7 +25,7 @@ const notStorageReducer = {
   createTask: false,
   viewReports: false,
   viewUsers: false,
-  DeleteUser: false,
+  deleteUser: false,
 };
 const storageReducer = localStorage.getItem('page');
 
@@ -54,7 +55,7 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: false,
-        DeleteUser: false,
+        deleteUser: false,
       };
     case 'SELECTED_CRE_PROJECT':
       return {
@@ -62,7 +63,7 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: true,
         createTask: false,
         viewReports: false,
-        DeleteUser: false,
+        deleteUser: false,
       };
     case 'SELECTED_CRE_TASKS':
       return {
@@ -70,7 +71,7 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: true,
         viewReports: false,
-        DeleteUser: false,
+        deleteUser: false,
       };
     case 'SELECTED_VIEW_REPORTS':
       return {
@@ -78,7 +79,7 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: true,
-        DeleteUser: false,
+        deleteUser: false,
       };
     case 'SELECTED_VIEW_USERS':
       return {
@@ -86,7 +87,7 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: false,
-        DeleteUser: false,
+        deleteUser: false,
       };
     case 'SELECTED_DELETE_USER':
       return {
@@ -94,7 +95,7 @@ const selectedSectionReducer: React.Reducer<DataSelected, Action> = (
         createProject: false,
         createTask: false,
         viewReports: false,
-        DeleteUser: true,
+        deleteUser: true,
       };
     default:
       return state;
@@ -201,6 +202,7 @@ const DashboardPage = (): JSX.Element => {
         {state.createProject ? <CreateProject /> : null}
         {state.createTask ? <CreateTask /> : null}
         {state.viewReports ? <ViewReports /> : null}
+        {state.deleteUser ? <DeleteUser /> : null}
       </div>
     </>
   );

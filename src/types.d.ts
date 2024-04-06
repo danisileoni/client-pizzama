@@ -18,6 +18,7 @@ export interface AuthManagementReducer {
   findOne?: AuthRegister;
   activeData?: AuthActive;
   update?: AuthRegister;
+  delete?: authRegister;
   error?: undefined | ErrorApi;
 }
 

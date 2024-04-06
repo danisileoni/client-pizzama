@@ -12,6 +12,7 @@ import {
   authRefreshToken,
   authRegister,
   authVerifyRequest,
+  deleteUserDb,
   getAll,
   getOne,
   getUserActive,
@@ -34,6 +35,7 @@ const enum ActionData {
   FETCH_FIND_ONE = 'FETCH_FIND_ONE',
   FETCH_ACTIVE_USER = 'FETCH_ACTIVE_USER',
   FETCH_UPDATE = 'FETCH_UPDATE',
+  FETCH_DELETE = 'FETCH_DELETE',
   FETCH_LOGOUT = 'FETCH_LOGOUT',
   FETCH_ERROR = 'FETCH_ERROR',
 }
@@ -48,6 +50,7 @@ const initialState = {
   findOne: undefined,
   activeData: undefined,
   update: undefined,
+  delete: undefined,
   error: undefined,
 };
 
@@ -123,6 +126,12 @@ const authManagementReducer: React.Reducer<AuthManagementReducer, Action> = (
       return {
         ...state,
         update: action.payload,
+        error: undefined,
+      };
+    case 'FETCH_DELETE':
+      return {
+        ...state,
+        delete: action.payload,
         error: undefined,
       };
     case 'FETCH_ERROR':
@@ -268,6 +277,16 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
     }
   };
 
+  const deleteUser = async (id: string): Promise<void> => {
+    try {
+      const cookies = Cookies.get();
+      const res = await deleteUserDb(cookies.token, id);
+      dispatch({ type: ActionData.FETCH_DELETE, payload: res });
+    } catch (error) {
+      dispatch({ type: ActionData.FETCH_ERROR, payload: error });
+    }
+  };
+
   const logout = async (): Promise<void> => {
     try {
       const cookies = Cookies.get();
@@ -287,6 +306,7 @@ export const AuthProvider = ({ children }: props): JSX.Element => {
         getOneUser,
         getActive,
         updateUser,
+        deleteUser,
         logout,
         state,
         errorMessage,
