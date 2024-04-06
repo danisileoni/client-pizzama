@@ -43,8 +43,8 @@ const TasksPage = (): JSX.Element => {
                 <div className="flex justify-between">
                   <h5 className="text-sm">{data?.name}</h5>
                   <span className="text-sm">
-                    start: {task.startDate.split('T')[0]} - end:{' '}
-                    {task.endDate.split('T')[0]}
+                    start: {(task.startDate as string).split('T')[0]} - end:{' '}
+                    {(task.endDate as string).split('T')[0]}
                   </span>
                 </div>
                 <p className="text-xs whitespace-nowrap overflow-hidden text-ellipsis">

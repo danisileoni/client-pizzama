@@ -11,8 +11,7 @@ export const DeleteUser = (): JSX.Element => {
     setDataUser(data);
   };
 
-  const onDeleteUser = async (id: string): Promise<void> => {
-    console.log(id);
+  const onDeleteUser = async (id: string = ''): Promise<void> => {
     await deleteUser(id);
   };
 
@@ -39,6 +38,7 @@ export const DeleteUser = (): JSX.Element => {
       </div>
       <div className="row-start-7 col-start-5 col-span-2 flex justify-center items-center">
         <button
+          disabled={!dataUser?._id}
           onClick={async () => {
             await onDeleteUser(dataUser?._id);
           }}

@@ -95,7 +95,7 @@ export interface AuthRegister {
   roles: string[];
   assignedProjects: string[];
   assignedTasks: string[];
-  _id: string;
+  _id?: string;
   __v: number;
 }
 export interface AuthAPILogin extends StateUserType {

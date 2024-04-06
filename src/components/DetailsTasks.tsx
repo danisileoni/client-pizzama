@@ -15,7 +15,7 @@ const DetailsTasks = (): JSX.Element => {
       if (taskId && !findOneTask) {
         await getOneTask(taskId);
       }
-      if (findOneTask) {
+      if (findOneTask?.projectId) {
         await getOneProject(findOneTask?.projectId[0]);
       }
     })();

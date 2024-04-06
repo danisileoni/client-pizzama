@@ -43,7 +43,7 @@ export const CreateProject = (): JSX.Element => {
     }
   };
 
-  const deleteUserData = (idDelete: string): void => {
+  const deleteUserData = (idDelete: string = ''): void => {
     setDataUser((prevData) => prevData.filter((user) => user._id !== idDelete));
     setDataProject((prevData) => ({
       ...prevData,

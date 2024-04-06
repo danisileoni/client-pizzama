@@ -107,7 +107,7 @@ export const ProjectsProvider = ({ children }: props): JSX.Element => {
       dispatch({ type: ActionData.FETCH_CREATE, payload: res });
     } catch (error) {
       dispatch({ type: ActionData.FETCH_ERROR, payload: error });
-      throw Error(error);
+      throw Error(error as string);
     }
   };
 
